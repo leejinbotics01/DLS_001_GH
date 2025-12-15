@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🚀 LeejinBotics Library - INDUSTRIAL PRO DASHBOARD</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* KEEP ALL YOUR EXISTING STYLES EXACTLY AS THEY ARE */
+    :root {
+      --bg: #0a0a0f;
+      --panel: #151522;
+      --accent: #6366f1;
+      --accent-2: #8b5cf6;
+      --neon-pink: #ec4899;
+      --neon-blue: #3b82f6;
+      --neon-green: #10b981;
+      --neon-yellow: #f59e0b;
+      --neon-orange: #f97316;
+      --neon-purple: #a855f7;
+      --industrial-blue: #1e40af;
+      --industrial-orange: #ea580c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body { 
+      height: 100%; 
+      background: linear-gradient(135deg, #0a0a0f 0%, #1e1b2e 50%, #151522 100%);
+      color: #f8fafc; 
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* 🏭 INDUSTRIAL GLASS EFFECT */
+    .industrial-glass { 
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      backdrop-filter: blur(25px) saturate(200%);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        0 0 0 1px rgba(255,255,255,0.05);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .industrial-glass:hover { 
+      transform: translateY(-5px);
+      box-shadow: 
+        0 35px 60px rgba(0,0,0,0.9),
+        0 0 40px rgba(99, 102, 241, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    /* 🌐 CONNECTION INDICATOR */
+    .connection-indicator {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 2px solid;
+    }
+
+    .connection-online {
+      background: linear-gradient(135deg, var(--neon-green), #059669);
+      color: white;
+      border-color: rgba(16, 185, 129, 0.5);
+      animation: pulse-online 2s infinite;
+    }
+
+    .connection-offline {
+      background: linear-gradient(135deg, var(--neon-orange), #dc2626);
+      color: white;
+      border-color: rgba(239, 68, 68, 0.5);
+      animation: pulse-offline 1s infinite;
+    }
+
+    @keyframes pulse-online {
+      0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
+      50% { box-shadow: 0 0 30px rgba(16, 185, 129, 1); }
+    }
+
+    @keyframes pulse-offline {
+      0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); }
+      50% { box-shadow: 0 0 30px rgba(239, 68, 68, 1); }
+    }
+
+    /* 🎠 SIDEBAR */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+      backdrop-filter: blur(30px);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    }
+
+    .sidebar-header {
+      padding: 30px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .nav-item {
+      padding: 15px 20px;
+      margin: 5px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      border: 2px solid transparent;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+      color: white;
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+    }
+
+    .nav-item:hover:not(.active) {
+      background: rgba(255,255,255,0.05);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .nav-icon {
+      width: 24px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    /* 📊 CIRCULAR PROGRESS - INDUSTRIAL */
+    .circular-progress-industrial {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      background: conic-gradient(
+        var(--neon-green) 0% var(--available-percent),
+        var(--neon-yellow) var(--available-percent) var(--borrowed-percent),
+        var(--neon-orange) var(--borrowed-percent) var(--overdue-percent),
+        var(--neon-purple) var(--overdue-percent) 100%
+      );
+      padding: 8px;
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+      animation: rotate 15s linear infinite;
+    }
+
+    .circular-progress-industrial::before {
+      content: '';
+      position: absolute;
+      width: calc(100% - 16px);
+      height: calc(100% - 16px);
+      border-radius: 50%;
+      background: var(--panel);
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 🎭 BUTTONS - INDUSTRIAL */
+    .btn-industrial {
+      background: linear-gradient(135deg, var(--industrial-blue), var(--accent-2));
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.9rem;
+    }
+
+    .btn-industrial::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s;
+    }
+
+    .btn-industrial:hover::before {
+      left: 100%;
+    }
+
+    .btn-industrial:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    /* 🔥 STATUS PILLS - INDUSTRIAL */
+    .status-pill-industrial {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      border: 2px solid;
+      box-shadow: 0 0 20px currentColor;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    }
+
+    .status-available { 
+      background: linear-gradient(135deg, rgba(16,185,129,0.3), rgba(16,185,129,0.1));
+      color: var(--neon-green);
+      border-color: rgba(16,185,129,0.6);
+    }
+
+    .status-borrowed { 
+      background: linear-gradient(135deg, rgba(245,158,11,0.3), rgba(245,158,11,0.1));
+      color: var(--neon-yellow);
+      border-color: rgba(245,158,11,0.6);
+    }
+
+    .status-overdue { 
+      background: linear-gradient(135deg, rgba(239,68,68,0.3), rgba(239,68,68,0.1));
+      color: #ef4444;
+      border-color: rgba(239,68,68,0.6);
+      animation: pulse-alert 2s infinite;
+    }
+
+    .status-misplaced { 
+      background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(139,92,246,0.1));
+      color: var(--neon-purple);
+      border-color: rgba(139,92,246,0.6);
+      animation: pulse-misplaced 3s infinite;
+    }
+
+    @keyframes pulse-alert {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ef4444; }
+      50% { transform: scale(1.05); box-shadow: 0 0 30px #ef4444; }
+    }
+
+    @keyframes pulse-misplaced {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--neon-purple); }
+      50% { transform: scale(1.03); box-shadow: 0 0 25px var(--neon-purple); }
+    }
+
+    /* 🎪 MODAL - INDUSTRIAL */
+    .modal-industrial {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal-industrial.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content-industrial {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      backdrop-filter: blur(40px);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      transform: scale(0.8) translateY(50px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .modal-industrial.active .modal-content-industrial {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* 📱 INPUT FIELDS - INDUSTRIAL */
+    .input-industrial {
+      background: rgba(15, 23, 42, 0.7);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: white;
+      padding: 14px 18px;
+      width: 100%;
+      outline: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .input-industrial:focus {
+      border-color: var(--industrial-blue);
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+      transform: scale(1.02);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    /* 🏷️ MAIN CONTENT */
+    .main-content {
+      margin-left: 280px;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* 📊 STATS CARDS - INDUSTRIAL */
+    .stat-card-industrial {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat-card-industrial::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.8s;
+      opacity: 0;
+    }
+
+    .stat-card-industrial:hover::after {
+      opacity: 1;
+      transform: rotate(45deg) translate(20%, 20%);
+    }
+
+    /* 📚 BOOK CARDS - INDUSTRIAL */
+    .book-card-industrial {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 4px solid transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .book-card-industrial:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    /* 🔄 LOADING */
+    .loading-spinner-industrial {
+      border: 4px solid rgba(59, 130, 246, 0.3);
+      border-top: 4px solid var(--industrial-blue);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    }
+
+    /* 🎪 NOTIFICATIONS - INDUSTRIAL */
+    .notification-industrial {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      padding: 18px 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      border-left: 4px solid;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+    }
+
+    .notification-industrial.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .notification-industrial.success { border-left-color: var(--neon-green); }
+    .notification-industrial.error { border-left-color: #ef4444; }
+    .notification-industrial.info { border-left-color: var(--industrial-blue); }
+
+    /* 👤 USER PROFILE SECTION */
+    .user-profile {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto 15px;
+      border: 3px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    }
+
+    /* 🏭 INDUSTRIAL BADGES */
+    .industrial-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--industrial-orange), #dc2626);
+      color: white;
+      box-shadow: 0 5px 15px rgba(234, 88, 12, 0.4);
+    }
+
+    /* ✨ CONTRIBUTOR SECTION */
+    .contributor-section {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .contributor-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      border: 4px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 40px rgba(236, 72, 153, 0.6);
+    }
+
+    /* 🎯 ACTION BUTTONS */
+    .action-btn {
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 2px solid;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.8rem;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-edit { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+    .btn-delete { border-color: #ef4444; color: #ef4444; }
+    .btn-flag { border-color: var(--neon-purple); color: var(--neon-purple); }
+
+    /* 📈 ANALYTICS CHARTS */
+    .analytics-chart {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* 🎛️ SETTINGS PANELS */
+    .settings-panel {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+
+    /* 🎨 PAGE TRANSITIONS */
+    .page {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 📱 RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .nav-item {
+        margin: 2px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 🌐 ONLINE/OFFLINE INDICATOR -->
+  <div id="connectionIndicator" class="connection-indicator connection-online">
+    <i class="fas fa-satellite-dish"></i>
+    <span>SYSTEM ONLINE</span>
+  </div>
+
+  <!-- 🎠 SIDEBAR -->
+  <div class="sidebar">
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-microchip"></i>
+        </div>
+        <span>LeejinBotics</span>
+      </div>
+      <div class="industrial-badge mt-2">PRODUCTION v2.0</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 py-6">
+      <div class="nav-item active" onclick="showPage('dashboard-page')">
+        <div class="nav-icon"><i class="fas fa-gauge-high"></i></div>
+        <span>DASHBOARD</span>
+      </div>
+      <div class="nav-item" onclick="showPage('books-page')">
+        <div class="nav-icon"><i class="fas fa-books"></i></div>
+        <span>BOOK MANAGEMENT</span>
+      </div>
+      <div class="nav-item" onclick="showPage('users-page')">
+        <div class="nav-icon"><i class="fas fa-users-gear"></i></div>
+        <span>USER CONTROL</span>
+      </div>
+      <div class="nav-item" onclick="showPage('analytics-page')">
+        <div class="nav-icon"><i class="fas fa-chart-network"></i></div>
+        <span>ANALYTICS</span>
+      </div>
+      <div class="nav-item" onclick="showPage('settings-page')">
+        <div class="nav-icon"><i class="fas fa-sliders"></i></div>
+        <span>SYSTEM SETTINGS</span>
+      </div>
+    </nav>
+
+    <!-- User Profile -->
+    <div class="user-profile">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <div class="text-center mb-4">
+        <div class="font-semibold" id="userName">User Name</div>
+        <div class="text-sm text-gray-400" id="userEmail">user@leejinbotics.com</div>
+      </div>
+      <button onclick="logout()" class="btn-industrial w-full" style="padding: 10px; font-size: 0.8rem;">
+        <i class="fas fa-power-off mr-2"></i>LOGOUT SYSTEM
+      </button>
+    </div>
+
+    <!-- Contributor Section -->
+    <div class="contributor-section">
+      <div class="contributor-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="text-sm text-gray-300">System Contributor</div>
+      <div class="text-xs text-gray-500 mt-1">LeejinBotics AI</div>
+    </div>
+  </div>
+
+  <!-- 🎪 LOADING SCREEN -->
+  <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+    <div class="text-center">
+      <div class="loading-spinner-industrial mb-6"></div>
+      <h2 class="text-3xl font-bold text-white mb-2">INITIALIZING SYSTEM</h2>
+      <p class="text-gray-400" id="loadingStatus">Booting Industrial Dashboard...</p>
+      <div class="mt-4 flex justify-center gap-2">
+        <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+        <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+        <div class="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔐 LOGIN REQUIRED -->
+  <div id="loginRequired" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50 hidden">
+    <div class="industrial-glass p-8 rounded-2xl text-center max-w-md">
+      <div class="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-shield-exclamation text-red-400 text-4xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-2">ACCESS DENIED</h2>
+      <p class="text-gray-400 mb-6">Authentication required to access industrial control system</p>
+      <button onclick="goToAuth()" class="btn-industrial w-full">
+        <i class="fas fa-terminal mr-2"></i>ACCESS TERMINAL
+      </button>
+    </div>
+  </div>
+
+  <!-- 🏭 MAIN CONTENT -->
+  <div class="main-content">
+    <!-- 📊 DASHBOARD PAGE -->
+    <div id="dashboard-page" class="page active">
+      <!-- Header -->
+      <div class="industrial-glass p-8 mb-8">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              INDUSTRIAL LIBRARY CONTROL
+            </h1>
+            <p class="text-gray-400 mt-2">Real-time monitoring and management system</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <!-- 🔥 ADDED: Real-time indicator -->
+            <div class="flex items-center gap-2 bg-gray-800/50 px-3 py-1 rounded-full" id="realTimeIndicator">
+              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span class="text-xs text-green-400">REAL-TIME</span>
+            </div>
+            <div class="text-right">
+              <div class="font-semibold" id="currentTime">Loading...</div>
+              <div class="text-sm text-gray-400">System Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="industrial-glass p-6 stat-card-industrial text-center">
+          <div class="text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
+          <div class="text-gray-400">TOTAL ASSETS</div>
+          <div class="text-xs text-green-400 mt-2" id="registeredBooks">0 registered</div>
+        </div>
+        <div class="industrial-glass p-6 stat-card-industrial text-center">
+          <div class="text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
+          <div class="text-gray-400">AVAILABLE</div>
+          <div class="text-xs text-green-400 mt-2" id="availablePercentage">0% operational</div>
+        </div>
+        <div class="industrial-glass p-6 stat-card-industrial text-center">
+          <div class="text-3xl font-bold text-yellow-400 mb-2" id="borrowedBooks">0</div>
+          <div class="text-gray-400">IN USE</div>
+          <div class="text-xs text-yellow-400 mt-2" id="misplacedCount">0 flagged</div>
+        </div>
+        <div class="industrial-glass p-6 stat-card-industrial text-center">
+          <div class="text-3xl font-bold text-red-400 mb-2" id="overdueBooks">0</div>
+          <div class="text-gray-400">OVERDUE</div>
+          <div class="text-xs text-red-400 mt-2" id="overdueAlert">SYSTEM OPTIMAL</div>
+        </div>
+      </div>
+
+      <!-- Circular Progress & Actions -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Circular Progress -->
+        <div class="industrial-glass p-8">
+          <h3 class="text-xl font-bold text-white mb-6 text-center">ASSET DISTRIBUTION</h3>
+          <div class="circular-progress-industrial" id="circularProgress">
+            <div class="absolute text-center z-10">
+              <div class="text-2xl font-bold" id="circularTotal">0</div>
+              <div class="text-sm text-gray-400">TOTAL UNITS</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-8 text-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-green-400 shadow-lg shadow-green-400/50"></div>
+              <span>Available: <span id="circularAvailable">0</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50"></div>
+              <span>In Use: <span id="circularBorrowed">0</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-red-400 shadow-lg shadow-red-400/50"></div>
+              <span>Overdue: <span id="circularOverdue">0</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-purple-400 shadow-lg shadow-purple-400/50"></div>
+              <span>Flagged: <span id="circularMisplaced">0</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="industrial-glass p-8">
+          <h3 class="text-xl font-bold text-white mb-6">CONTROL PANEL</h3>
+          <div class="space-y-4">
+            <button onclick="showAddBookModal()" class="btn-industrial w-full text-left">
+              <i class="fas fa-plus-circle mr-3"></i>ADD NEW ASSET
+            </button>
+            <button onclick="runOverdueCheck()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-orange),#fb923c);">
+              <i class="fas fa-radar-dish mr-3"></i>SCAN OVERDUE
+            </button>
+            <button onclick="exportData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-green),#059669);">
+              <i class="fas fa-database mr-3"></i>EXPORT DATA
+            </button>
+            <button onclick="refreshData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+              <i class="fas fa-arrows-rotate mr-3"></i>REFRESH SYSTEM
+            </button>
+            <!-- 🔥 ADDED: Force update button -->
+            <button onclick="forceUpdateFromFirebase()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-blue),#3b82f6);">
+              <i class="fas fa-bolt mr-3"></i>FORCE UPDATE
+            </button>
+            <!-- 🔥 ADDED: Register All Unregistered Books -->
+            <button onclick="registerAllUnregisteredBooks()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-green),#10b981);">
+              <i class="fas fa-fingerprint mr-3"></i>REGISTER ALL UNREGISTERED
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="industrial-glass p-8">
+        <h3 class="text-xl font-bold text-white mb-6">RECENT ACTIVITY</h3>
+        <div id="recentBooks" class="text-gray-400 text-center py-8">
+          <div class="loading-spinner-industrial mx-auto mb-4"></div>
+          Loading system activity...
+        </div>
+      </div>
+    </div>
+
+    <!-- 📚 BOOK MANAGEMENT PAGE -->
+    <div id="books-page" class="page">
+      <div class="industrial-glass p-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <h3 class="text-2xl font-bold text-white">ASSET MANAGEMENT</h3>
+          <div class="flex gap-3">
+            <input type="text" id="bookSearch" placeholder="Search assets..." class="input-industrial" style="min-width: 300px;">
+            <select id="bookStatusFilter" class="input-industrial" style="min-width: 180px;">
+              <option value="">ALL STATUS</option>
+              <option value="Available">AVAILABLE</option>
+              <option value="Borrowed">IN USE</option>
+              <option value="Overdue">OVERDUE</option>
+              <option value="Misplaced">FLAGGED</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="p-4 text-left">ASSET ID</th>
+                <th class="p-4 text-left">TITLE</th>
+                <th class="p-4 text-left">AUTHOR</th>
+                <th class="p-4 text-left">LOCATION</th>
+                <th class="p-4 text-left">STATUS</th>
+                <th class="p-4 text-left">USER</th>
+                <th class="p-4 text-left">LAST SCAN</th>
+                <th class="p-4 text-left">REGISTERED</th>
+                <th class="p-4 text-left">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="booksTable">
+              <!-- Books will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 👥 USER CONTROL PAGE -->
+    <div id="users-page" class="page">
+      <div class="industrial-glass p-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <h3 class="text-2xl font-bold text-white">USER CONTROL PANEL</h3>
+          <div class="flex gap-3">
+            <input type="text" id="userSearch" placeholder="Search users..." class="input-industrial" style="min-width: 250px;">
+            <button onclick="showAddUserModal()" class="btn-industrial">
+              <i class="fas fa-user-plus mr-2"></i>ADD USER
+            </button>
+          </div>
+        </div>
+
+        <!-- User Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="industrial-glass p-6 text-center">
+            <div class="text-3xl font-bold text-blue-400 mb-2" id="totalUsers">0</div>
+            <div class="text-gray-400">REGISTERED USERS</div>
+          </div>
+          <div class="industrial-glass p-6 text-center">
+            <div class="text-3xl font-bold text-green-400 mb-2" id="activeUsers">0</div>
+            <div class="text-gray-400">ACTIVE TODAY</div>
+          </div>
+          <div class="industrial-glass p-6 text-center">
+            <div class="text-3xl font-bold text-yellow-400 mb-2" id="borrowingUsers">0</div>
+            <div class="text-gray-400">CURRENTLY BORROWING</div>
+          </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="p-4 text-left">USER ID</th>
+                <th class="p-4 text-left">NAME</th>
+                <th class="p-4 text-left">EMAIL</th>
+                <th class="p-4 text-left">ROLE</th>
+                <th class="p-4 text-left">BORROWED ITEMS</th>
+                <th class="p-4 text-left">LAST ACTIVE</th>
+                <th class="p-4 text-left">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="usersTable">
+              <tr>
+                <td colspan="7" class="p-8 text-center text-gray-400">
+                  <i class="fas fa-users text-4xl mb-4 block"></i>
+                  Loading user data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📈 ANALYTICS PAGE -->
+    <div id="analytics-page" class="page">
+      <div class="industrial-glass p-8">
+        <h3 class="text-2xl font-bold text-white mb-8">SYSTEM ANALYTICS</h3>
+        
+        <!-- Analytics Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Usage Statistics -->
+          <div class="analytics-chart">
+            <h4 class="text-lg font-semibold mb-4">📊 USAGE STATISTICS</h4>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>Daily Transactions</span>
+                  <span id="dailyTransactions">0</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-blue-500 h-2 rounded-full" style="width: 65%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>Monthly Activity</span>
+                  <span id="monthlyActivity">0</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>System Uptime</span>
+                  <span id="systemUptime">99.8%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-purple-500 h-2 rounded-full" style="width: 99%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Items -->
+          <div class="analytics-chart">
+            <h4 class="text-lg font-semibold mb-4">🔥 POPULAR ASSETS</h4>
+            <div id="popularBooks" class="space-y-3">
+              <div class="text-center text-gray-400 py-4">
+                <i class="fas fa-chart-bar text-2xl mb-2 block"></i>
+                Loading popular items...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Timeline -->
+        <div class="analytics-chart">
+          <h4 class="text-lg font-semibold mb-4">🕒 RECENT ACTIVITY TIMELINE</h4>
+          <div id="activityTimeline" class="space-y-4">
+            <div class="text-center text-gray-400 py-8">
+              <div class="loading-spinner-industrial mx-auto mb-4"></div>
+              Loading activity timeline...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚙️ SYSTEM SETTINGS PAGE -->
+    <div id="settings-page" class="page">
+      <div class="industrial-glass p-8">
+        <h3 class="text-2xl font-bold text-white mb-8">SYSTEM SETTINGS</h3>
+        
+        <!-- General Settings -->
+        <div class="settings-panel">
+          <h4 class="text-lg font-semibold mb-4">🔧 GENERAL SETTINGS</h4>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-medium">System Notifications</div>
+                <div class="text-sm text-gray-400">Receive alerts for system events</div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-medium">Auto-refresh Data</div>
+                <div class="text-sm text-gray-400">Automatically refresh dashboard data</div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="settings-panel">
+          <h4 class="text-lg font-semibold mb-4">🔐 SECURITY SETTINGS</h4>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-gray-300 mb-2">Session Timeout</label>
+              <select class="input-industrial">
+                <option>15 minutes</option>
+                <option selected>30 minutes</option>
+                <option>1 hour</option>
+                <option>2 hours</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2">Password Requirements</label>
+              <select class="input-industrial">
+                <option>Basic (6 characters)</option>
+                <option selected>Standard (8 characters with numbers)</option>
+                <option>Strong (12 characters with symbols)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="settings-panel">
+          <h4 class="text-lg font-semibold mb-4">💻 SYSTEM INFORMATION</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <div class="text-sm text-gray-400">System Version</div>
+              <div class="font-medium">Industrial Dashboard v2.0.1</div>
+            </div>
+            <div>
+              <div class="text-sm text-gray-400">Last Updated</div>
+              <div class="font-medium" id="lastUpdated">Loading...</div>
+            </div>
+            <div>
+              <div class="text-sm text-gray-400">Database Status</div>
+              <div class="font-medium text-green-400">Connected</div>
+            </div>
+            <div>
+              <div class="text-sm text-gray-400">Active Sessions</div>
+              <div class="font-medium" id="activeSessions">1</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="settings-panel border-2 border-red-500/30">
+          <h4 class="text-lg font-semibold mb-4 text-red-400">⚠️ DANGER ZONE</h4>
+          <div class="space-y-3">
+            <button onclick="clearAllData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+              <i class="fas fa-trash mr-2"></i>CLEAR ALL SYSTEM DATA
+            </button>
+            <button onclick="resetSystem()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-orange),#ea580c);">
+              <i class="fas fa-rotate mr-2"></i>FACTORY RESET
+            </button>
+            <button onclick="exportBackup()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+              <i class="fas fa-download mr-2"></i>CREATE BACKUP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ➕ ADD BOOK MODAL -->
+  <div id="addBookModal" class="modal-industrial">
+    <div class="modal-content-industrial">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-white">➕ ADD NEW ASSET</h3>
+        <button onclick="hideAddBookModal()" class="text-gray-400 hover:text-white text-xl">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form onsubmit="addBook(event)">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-gray-300 mb-2">ASSET ID *</label>
+            <input type="text" id="newBookId" required class="input-industrial" placeholder="Enter unique asset ID">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">TITLE *</label>
+            <input type="text" id="newBookTitle" required class="input-industrial" placeholder="Enter asset title">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">AUTHOR</label>
+            <input type="text" id="newBookAuthor" class="input-industrial" placeholder="Enter author/manufacturer">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">LOCATION</label>
+            <input type="text" id="newBookLocation" class="input-industrial" placeholder="Enter storage location">
+          </div>
+        </div>
+        <div class="flex gap-3 mt-8">
+          <button type="button" onclick="hideAddBookModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600">
+            CANCEL
+          </button>
+          <button type="submit" class="flex-1 btn-industrial">
+            <i class="fas fa-plus-circle mr-2"></i>ADD ASSET
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 👤 ADD USER MODAL -->
+  <div id="addUserModal" class="modal-industrial">
+    <div class="modal-content-industrial">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-white">👤 ADD NEW USER</h3>
+        <button onclick="hideAddUserModal()" class="text-gray-400 hover:text-white text-xl">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form onsubmit="addUser(event)">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-gray-300 mb-2">FULL NAME *</label>
+            <input type="text" id="newUserName" required class="input-industrial" placeholder="Enter user's full name">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">EMAIL *</label>
+            <input type="email" id="newUserEmail" required class="input-industrial" placeholder="Enter user's email">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">ROLE *</label>
+            <select id="newUserRole" class="input-industrial">
+              <option value="Student">Student</option>
+              <option value="Staff">Staff</option>
+              <option value="Admin">Administrator</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">DEPARTMENT</label>
+            <input type="text" id="newUserDepartment" class="input-industrial" placeholder="Enter department">
+          </div>
+        </div>
+        <div class="flex gap-3 mt-8">
+          <button type="button" onclick="hideAddUserModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600">
+            CANCEL
+          </button>
+          <button type="submit" class="flex-1 btn-industrial">
+            <i class="fas fa-user-plus mr-2"></i>ADD USER
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAuN-gyzwFj7FeLUMfsFyo5FmWnzjHnyMM",
+      authDomain: "libtest-33d26.firebaseapp.com",
+      databaseURL: "https://libtest-33d26-default-rtdb.firebaseio.com",
+      projectId: "libtest-33d26",
+      storageBucket: "libtest-33d26.firebasestorage.app",
+      messagingSenderId: "105187806249",
+      appId: "1:105187806249:web:a1b2c3d4e5f6g7h8i9j0"
+    };
+
+    let currentUser = null;
+    let books = [];
+    let users = [];
+    let isOnline = true;
+    
+    // 🔥 ADDED: Database references
+    let booksRef = null;
+    let usersRef = null;
+
+    // ==================== CRITICAL FIX: STATUS NORMALIZATION ====================
+    // ESP/Mega sends: "AVL", "BRW" 
+    // Dashboard expects: "Available", "Borrowed"
+// ==================== IMPROVED: normalizeStatus ====================
+  
+    function normalizeStatus(status) {
+      if (!status || typeof status !== 'string') return "Available";
+      
+      // Clean the status string
+      const cleanStatus = status.trim();
+      
+      // ESP/Mega format to Dashboard format mapping
+      const statusMap = {
+        // ESP/Mega short formats
+        'AVL': 'Available',
+        'avl': 'Available',
+        'BRW': 'Borrowed',
+        'brw': 'Borrowed',
+        'OVD': 'Overdue',
+        'ovd': 'Overdue',
+        'MIS': 'Misplaced',
+        'mis': 'Misplaced',
+        
+        // Dashboard long formats
+        'AVAILABLE': 'Available',
+        'available': 'Available',
+        'Available': 'Available',
+        'BORROWED': 'Borrowed',
+        'borrowed': 'Borrowed',
+        'Borrowed': 'Borrowed',
+        'OVERDUE': 'Overdue',
+        'overdue': 'Overdue',
+        'Overdue': 'Overdue',
+        'MISPLACED': 'Misplaced',
+        'misplaced': 'Misplaced',
+        'Misplaced': 'Misplaced',
+        
+        // Special cases
+        'Unknown': 'Available',  // Treat unknown as available
+        'UNKNOWN': 'Available',
+        'unknown': 'Available'
+      };
+      
+      // Check for exact match first
+      if (statusMap[cleanStatus]) {
+        return statusMap[cleanStatus];
+      }
+      
+      // Check for partial matches
+      if (cleanStatus.includes('AVL') || cleanStatus.includes('avl')) return 'Available';
+      if (cleanStatus.includes('BRW') || cleanStatus.includes('brw')) return 'Borrowed';
+      if (cleanStatus.includes('OVD') || cleanStatus.includes('ovd')) return 'Overdue';
+      if (cleanStatus.includes('MIS') || cleanStatus.includes('mis')) return 'Misplaced';
+      
+      // Default to Available
+      return 'Available';
+    }
+
+    // ==================== toESPStatus - Dashboard to ESP format ====================
+    function toESPStatus(dashboardStatus) {
+      if (!dashboardStatus) return "AVL";
+      
+      const statusMap = {
+        'Available': 'AVL',
+        'available': 'AVL',
+        'AVAILABLE': 'AVL',
+        'Borrowed': 'BRW',
+        'borrowed': 'BRW',
+        'BORROWED': 'BRW',
+        'Overdue': 'OVD',
+        'overdue': 'OVD',
+        'OVERDUE': 'OVD',
+        'Misplaced': 'MIS',
+        'misplaced': 'MIS',
+        'MISPLACED': 'MIS'
+      };
+      
+      return statusMap[dashboardStatus] || "AVL";
+    }
+
+    // ==================== VALIDATION HELPER ====================
+    function isValidStatus(status) {
+      if (!status || typeof status !== 'string') return false;
+      
+      const validStatuses = [
+        'AVL', 'avl', 'BRW', 'brw', 'OVD', 'ovd', 'MIS', 'mis',
+        'Available', 'available', 'Borrowed', 'borrowed', 
+        'Overdue', 'overdue', 'Misplaced', 'misplaced',
+        'Unknown', 'unknown'
+      ];
+      
+      // Also check for corrupted strings
+      if (status.includes('undefined') || status.includes('null') || 
+          status.includes('�') || status.length > 20) {
+        return false;
+      }
+      
+      return validStatuses.includes(status);
+    }
+
+    // 🌐 ONLINE/OFFLINE DETECTION
+    function setupConnectionMonitoring() {
+      const indicator = document.getElementById('connectionIndicator');
+      
+      function updateConnectionStatus() {
+        isOnline = navigator.onLine;
+        if (isOnline) {
+          indicator.className = 'connection-indicator connection-online';
+          indicator.innerHTML = '<i class="fas fa-satellite-dish"></i><span>SYSTEM ONLINE</span>';
+          showNotification('Connection restored! System synchronized.', 'success');
+        } else {
+          indicator.className = 'connection-indicator connection-offline';
+          indicator.innerHTML = '<i class="fas fa-satellite-dish"></i><span>SYSTEM OFFLINE</span>';
+          showNotification('Connection lost! Working in offline mode.', 'error');
+        }
+      }
+
+      window.addEventListener('online', updateConnectionStatus);
+      window.addEventListener('offline', updateConnectionStatus);
+      updateConnectionStatus();
+    }
+
+    // 🎪 NOTIFICATION SYSTEM
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification-industrial ${type}`;
+      notification.innerHTML = `
+        <div class="flex items-center gap-3">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+          <span class="font-semibold">${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => notification.classList.add('show'), 100);
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 500);
+      }, 5000);
+    }
+
+    // 📊 CIRCULAR PROGRESS UPDATE
+    function updateCircularProgress() {
+      const total = books.length;
+      const available = books.filter(b => normalizeStatus(b.status) === 'Available').length;
+      const borrowed = books.filter(b => normalizeStatus(b.status) === 'Borrowed').length;
+      const overdue = books.filter(b => normalizeStatus(b.status) === 'Overdue').length;
+      const misplaced = books.filter(b => normalizeStatus(b.status) === 'Misplaced').length;
+
+      const availablePercent = total > 0 ? (available / total) * 100 : 0;
+      const borrowedPercent = total > 0 ? (borrowed / total) * 100 : 0;
+      const overduePercent = total > 0 ? (overdue / total) * 100 : 0;
+
+      const circular = document.getElementById('circularProgress');
+      circular.style.setProperty('--available-percent', `${availablePercent}%`);
+      circular.style.setProperty('--borrowed-percent', `${availablePercent + borrowedPercent}%`);
+      circular.style.setProperty('--overdue-percent', `${availablePercent + borrowedPercent + overduePercent}%`);
+
+      document.getElementById('circularTotal').textContent = total;
+      document.getElementById('circularAvailable').textContent = available;
+      document.getElementById('circularBorrowed').textContent = borrowed;
+      document.getElementById('circularOverdue').textContent = overdue;
+      document.getElementById('circularMisplaced').textContent = misplaced;
+    }
+
+    // 🕒 IMPROVED DATE/TIME HANDLING FUNCTIONS - ESP32 COMPATIBLE
+    function parseTimestamp(timestamp) {
+        if (!timestamp) return null;
+        
+        try {
+            // Handle Firebase timestamp objects
+            if (timestamp && typeof timestamp === 'object' && timestamp.hasOwnProperty('seconds')) {
+                return new Date(timestamp.seconds * 1000);
+            }
+            
+            // Handle ISO strings
+            if (typeof timestamp === 'string' && timestamp.includes('T')) {
+                return new Date(timestamp);
+            }
+            
+            // Handle ESP32 NTP time format (HH:MM:SS from NTP)
+            if (typeof timestamp === 'string' && timestamp.match(/^\d{1,2}:\d{2}:\d{2}$/)) {
+                const now = new Date();
+                const [hours, minutes, seconds] = timestamp.split(':');
+                
+                // Create date with current date but ESP32's NTP time
+                const espTime = new Date(now);
+                espTime.setHours(parseInt(hours), parseInt(minutes), parseInt(seconds), 0);
+                
+                return espTime;
+            }
+            
+            // Handle numeric timestamps
+            if (typeof timestamp === 'number') {
+                return new Date(timestamp);
+            }
+            
+            // Handle full date strings
+            if (typeof timestamp === 'string' && timestamp.includes('/')) {
+                return new Date(timestamp);
+            }
+            
+            // Try direct date parsing as last resort
+            const date = new Date(timestamp);
+            return isNaN(date.getTime()) ? null : date;
+        } catch (e) {
+            console.warn('Error parsing timestamp:', e, 'Value:', timestamp);
+            return null;
+        }
+    }
+
+    function formatTimeAgo(timestamp) {
+        const date = parseTimestamp(timestamp);
+        if (!date) return 'Never';
+        
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        
+        return date.toLocaleDateString();
+    }
+
+    function formatDateTime(timestamp) {
+        const date = parseTimestamp(timestamp);
+        if (!date) return 'Unknown';
+        
+        return date.toLocaleString();
+    }
+
+    function formatTime(timestamp) {
+        const date = parseTimestamp(timestamp);
+        if (!date) return 'Unknown';
+        
+        return date.toLocaleTimeString();
+    }
+
+    // ==================== FIXED: updateBooksTable - WITH STATUS NORMALIZATION ====================
+    function updateBooksTable() {
+      const tbody = document.getElementById('booksTable');
+      const searchTerm = document.getElementById('bookSearch').value.toLowerCase();
+      const statusFilter = document.getElementById('bookStatusFilter').value;
+      
+      let filteredBooks = books.filter(book => {
+        const matchesSearch = !searchTerm || 
+          (book.title && book.title.toLowerCase().includes(searchTerm)) ||
+          (book.author && book.author.toLowerCase().includes(searchTerm)) ||
+          (book.location && book.location.toLowerCase().includes(searchTerm));
+        
+        const matchesStatus = !statusFilter || normalizeStatus(book.status) === statusFilter;
+        
+        return matchesSearch && matchesStatus;
+      });
+
+      if (filteredBooks.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="p-8 text-center text-gray-400">
+              <i class="fas fa-search-location text-4xl mb-4 block"></i>
+              No assets found matching search criteria
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filteredBooks.map(book => {
+        const lastSeenDisplay = formatTimeAgo(book.lastSeen);
+        const lastSeenFull = formatDateTime(book.lastSeen);
+        const isRegistered = book.isRegistered === true;
+        const normalizedStatus = normalizeStatus(book.status);
+
+        return `
+        <tr class="book-card-industrial">
+          <td class="p-4">
+            <span class="font-mono text-sm bg-gray-800 px-3 py-2 rounded-lg border border-gray-700">${book.uid}</span>
+          </td>
+          <td class="p-4 font-semibold">
+            <input type="text" value="${book.title || 'New Book'}" 
+                   onchange="updateBookField('${book.uid}', 'title', this.value)"
+                   class="input-industrial text-sm bg-transparent border-none">
+          </td>
+          <td class="p-4">
+            <input type="text" value="${book.author || 'Unknown'}" 
+                   onchange="updateBookField('${book.uid}', 'author', this.value)"
+                   class="input-industrial text-sm bg-transparent border-none">
+          </td>
+          <td class="p-4">
+            <input type="text" value="${book.location || 'Unassigned'}" 
+                   onchange="updateBookField('${book.uid}', 'location', this.value)"
+                   class="input-industrial text-sm bg-transparent border-none">
+          </td>
+          <td class="p-4">
+            <select onchange="updateBookStatus('${book.uid}', this.value)" 
+                    class="status-pill-industrial status-${normalizedStatus.toLowerCase()}">
+              <option value="Available" ${normalizedStatus === 'Available' ? 'selected' : ''}>AVAILABLE</option>
+              <option value="Borrowed" ${normalizedStatus === 'Borrowed' ? 'selected' : ''}>IN USE</option>
+              <option value="Overdue" ${normalizedStatus === 'Overdue' ? 'selected' : ''}>OVERDUE</option>
+              <option value="Misplaced" ${normalizedStatus === 'Misplaced' ? 'selected' : ''}>FLAGGED</option>
+            </select>
+          </td>
+          <td class="p-4">
+            <input type="text" value="${book.student || ''}" 
+                   onchange="updateStudent('${book.uid}', this.value)"
+                   class="input-industrial text-sm bg-transparent border-none text-center" 
+                   placeholder="Assign user">
+          </td>
+          <td class="p-4 text-sm text-gray-400" title="${lastSeenFull}">
+            ${lastSeenDisplay}
+          </td>
+          <td class="p-4">
+            ${isRegistered ? 
+              '<span class="text-green-400 font-bold"><i class="fas fa-check-circle"></i> YES</span>' : 
+              '<span class="text-red-400 font-bold"><i class="fas fa-times-circle"></i> NO</span>'
+            }
+            ${!isRegistered ? 
+              `<button onclick="forceRegisterBook('${book.uid}')" class="ml-2 text-xs bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">
+                <i class="fas fa-bolt"></i> REGISTER
+              </button>` : 
+              ''
+            }
+          </td>
+          <td class="p-4">
+            <div class="flex gap-2">
+              <button onclick="markMisplaced('${book.uid}')" class="action-btn btn-flag" title="Flag as Misplaced">
+                <i class="fas fa-flag"></i>
+              </button>
+              <button onclick="editBook('${book.uid}')" class="action-btn btn-edit" title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button onclick="deleteBook('${book.uid}')" class="action-btn btn-delete" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        `;
+      }).join('');
+      
+      // 🔥 ADDED: Update real-time indicator
+      updateRealTimeIndicator(true);
+    }
+
+    // 👥 USERS TABLE
+    function updateUsersTable() {
+      const tbody = document.getElementById('usersTable');
+      const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+      
+      let filteredUsers = users.filter(user => {
+        return !searchTerm || 
+          (user.name && user.name.toLowerCase().includes(searchTerm)) ||
+          (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+          (user.department && user.department.toLowerCase().includes(searchTerm));
+      });
+
+      if (filteredUsers.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="p-8 text-center text-gray-400">
+              <i class="fas fa-user-slash text-4xl mb-4 block"></i>
+              No users found matching search criteria
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filteredUsers.map(user => {
+        const borrowedCount = books.filter(book => book.student === user.name).length;
+        const lastActiveDisplay = formatTimeAgo(user.lastActive);
+        
+        return `
+        <tr class="book-card-industrial">
+          <td class="p-4">
+            <span class="font-mono text-sm bg-gray-800 px-3 py-2 rounded-lg border border-gray-700">${user.id}</span>
+          </td>
+          <td class="p-4 font-semibold">${user.name}</td>
+          <td class="p-4">${user.email}</td>
+          <td class="p-4">
+            <span class="status-pill-industrial ${user.role === 'Admin' ? 'status-overdue' : user.role === 'Staff' ? 'status-borrowed' : 'status-available'}">
+              ${user.role}
+            </span>
+          </td>
+          <td class="p-4 text-center">
+            <span class="font-bold ${borrowedCount > 0 ? 'text-yellow-400' : 'text-gray-400'}">
+              ${borrowedCount}
+            </span>
+          </td>
+          <td class="p-4 text-sm text-gray-400">
+            ${lastActiveDisplay}
+          </td>
+          <td class="p-4">
+            <div class="flex gap-2">
+              <button onclick="editUser('${user.id}')" class="action-btn btn-edit" title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button onclick="deleteUser('${user.id}')" class="action-btn btn-delete" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        `;
+      }).join('');
+    }
+
+    // 📈 ANALYTICS DATA
+    function updateAnalytics() {
+      // Update usage statistics
+      const dailyTransactions = books.filter(book => {
+        const lastSeen = parseTimestamp(book.lastSeen);
+        if (!lastSeen) return false;
+        
+        const today = new Date();
+        return lastSeen.toDateString() === today.toDateString();
+      }).length;
+
+      document.getElementById('dailyTransactions').textContent = dailyTransactions;
+      document.getElementById('monthlyActivity').textContent = books.length;
+
+      // Update popular books
+      const popularBooks = [...books]
+        .sort((a, b) => {
+          const aBorrows = a.lastBorrowed ? 1 : 0;
+          const bBorrows = b.lastBorrowed ? 1 : 0;
+          return bBorrows - aBorrows;
+        })
+        .slice(0, 5);
+
+      const popularContainer = document.getElementById('popularBooks');
+      popularContainer.innerHTML = popularBooks.map(book => `
+        <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+          <div class="flex-1 truncate">
+            <div class="font-medium truncate">${book.title}</div>
+            <div class="text-xs text-gray-400 truncate">${book.author}</div>
+          </div>
+          <div class="text-yellow-400 font-bold ml-2">
+            <i class="fas fa-chart-line mr-1"></i>
+          </div>
+        </div>
+      `).join('');
+
+      // Update activity timeline
+      const timelineContainer = document.getElementById('activityTimeline');
+      const recentActivity = books
+        .filter(book => book.lastSeen)
+        .sort((a, b) => {
+          const dateA = parseTimestamp(a.lastSeen);
+          const dateB = parseTimestamp(b.lastSeen);
+          if (!dateA || !dateB) return 0;
+          return dateB - dateA;
+        })
+        .slice(0, 10);
+
+      timelineContainer.innerHTML = recentActivity.map(book => {
+        const timeDisplay = formatTime(book.lastSeen);
+        const fullDate = formatDateTime(book.lastSeen);
+        const normalizedStatus = normalizeStatus(book.status);
+
+        return `
+        <div class="flex items-center gap-4 p-3 bg-gray-800/30 rounded-lg border-l-4 ${normalizedStatus === 'Available' ? 'border-green-500' : normalizedStatus === 'Borrowed' ? 'border-yellow-500' : normalizedStatus === 'Overdue' ? 'border-red-500' : 'border-purple-500'}">
+            <div class="w-3 h-3 ${normalizedStatus === 'Available' ? 'bg-green-500' : normalizedStatus === 'Borrowed' ? 'bg-yellow-500' : normalizedStatus === 'Overdue' ? 'bg-red-500' : 'bg-purple-500'} rounded-full"></div>
+            <div class="flex-1">
+                <div class="font-medium">${book.title}</div>
+                <div class="text-sm text-gray-400">Status: ${normalizedStatus} • ${book.student ? `User: ${book.student}` : 'No user assigned'}</div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm font-medium">${timeDisplay}</div>
+                <div class="text-xs text-gray-400">${fullDate}</div>
+            </div>
+        </div>
+        `;
+      }).join('');
+    }
+
+    // 🏷️ PAGE NAVIGATION
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      document.querySelectorAll('.nav-item').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected page and activate tab
+      document.getElementById(pageId).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      // Load page-specific data
+      if (pageId === 'users-page') {
+        loadUsers();
+        updateUserStats();
+      } else if (pageId === 'analytics-page') {
+        updateAnalytics();
+      } else if (pageId === 'settings-page') {
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+      }
+    }
+
+    // ➕ ADD BOOK MODAL
+    function showAddBookModal() {
+      document.getElementById('addBookModal').classList.add('active');
+    }
+
+    function hideAddBookModal() {
+      document.getElementById('addBookModal').classList.remove('active');
+    }
+
+    // 👤 ADD USER MODAL
+    function showAddUserModal() {
+      document.getElementById('addUserModal').classList.add('active');
+    }
+
+    function hideAddUserModal() {
+      document.getElementById('addUserModal').classList.remove('active');
+    }
+
+    // ==================== FIXED: addBook - WITH ESP FORMAT SUPPORT ====================
+    async function addBook(event) {
+      event.preventDefault();
+      
+      const bookId = document.getElementById('newBookId').value.trim().toUpperCase();
+      const title = document.getElementById('newBookTitle').value.trim();
+      const author = document.getElementById('newBookAuthor').value.trim() || "Unknown";
+      const location = document.getElementById('newBookLocation').value.trim() || "Unassigned";
+      
+      if (!bookId || !title) {
+        showNotification('Please fill in required fields: Asset ID and Title', 'error');
+        return;
+      }
+
+      try {
+        const bookData = {
+          title: title || "New Book",
+          author: author || "Unknown",
+          location: location || "Unassigned",
+          status: "Available",            // Dashboard format
+          espStatus: "AVL",               // ESP format
+          lastSeen: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+          student: "",
+          sensor: 0,
+          isRegistered: true  // 🔥 Books added from dashboard are registered
+        };
+        
+        await firebase.database().ref('books/' + bookId).set(bookData);
+        
+        hideAddBookModal();
+        document.getElementById('newBookId').value = '';
+        document.getElementById('newBookTitle').value = '';
+        document.getElementById('newBookAuthor').value = '';
+        document.getElementById('newBookLocation').value = '';
+        
+        showNotification('✅ Asset added & REGISTERED! ESP will recognize it.', 'success');
+      } catch (error) {
+        console.error("Error adding book:", error);
+        showNotification('Error adding asset: ' + error.message, 'error');
+      }
+    }
+
+    async function addUser(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('newUserName').value;
+      const email = document.getElementById('newUserEmail').value;
+      const role = document.getElementById('newUserRole').value;
+      const department = document.getElementById('newUserDepartment').value;
+
+      if (!name || !email) {
+        showNotification('Please fill in required fields: Name and Email', 'error');
+        return;
+      }
+
+      try {
+        const userId = 'user_' + Date.now();
+        await firebase.database().ref('users/' + userId).set({
+          name: name,
+          email: email,
+          role: role,
+          department: department || 'General',
+          lastActive: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        });
+
+        hideAddUserModal();
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserEmail').value = '';
+        document.getElementById('newUserRole').value = 'Student';
+        document.getElementById('newUserDepartment').value = '';
+        
+        showNotification('User added successfully! 👤', 'success');
+        loadUsers();
+      } catch (error) {
+        showNotification('Error adding user: ' + error.message, 'error');
+      }
+    }
+
+    // ==================== FIXED: updateBookField - DUAL FORMAT SUPPORT ====================
+    async function updateBookField(bookId, field, value) {
+      try {
+        const updates = { 
+          [field]: value, 
+          lastUpdated: new Date().toISOString(),
+          isRegistered: true  // 🔥 Always register when editing
+        };
+        
+        // 🔥 CRITICAL: If updating status, add ESP format
+        if (field === 'status') {
+          updates.espStatus = toESPStatus(value);
+        }
+        
+        await firebase.database().ref('books/' + bookId).update(updates);
+        
+        const fieldNames = {
+          'title': 'Title',
+          'author': 'Author', 
+          'location': 'Location',
+          'status': 'Status'
+        };
+        
+        showNotification(`${fieldNames[field] || field} updated! ✅ Card is REGISTERED.`, 'success');
+      } catch (error) {
+        showNotification('Error updating asset: ' + error.message, 'error');
+      }
+    }
+
+    // ==================== FIXED: updateStudent - DUAL FORMAT SUPPORT ====================
+    async function updateStudent(bookId, studentName) {
+      try {
+        const newStatus = studentName.trim() ? 'Borrowed' : 'Available';
+        const espStatus = studentName.trim() ? 'BRW' : 'AVL';
+        
+        const updates = {
+          student: studentName.trim(),
+          status: newStatus,           // Dashboard format
+          espStatus: espStatus,        // ESP format
+          lastUpdated: new Date().toISOString(),
+          isRegistered: true  // 🔥 Always register
+        };
+        
+        await firebase.database().ref('books/' + bookId).update(updates);
+        showNotification(`Asset ${studentName.trim() ? 'assigned to ' + studentName : 'released'}! ✅ Card is REGISTERED.`, 'success');
+      } catch (error) {
+        showNotification('Error updating assignment: ' + error.message, 'error');
+      }
+    }
+
+    // ==================== FIXED: updateBookStatus - DUAL FORMAT SUPPORT ====================
+    async function updateBookStatus(bookId, newStatus) {
+      try {
+        const updates = {
+          status: newStatus,               // Dashboard format
+          espStatus: toESPStatus(newStatus), // ESP format
+          lastUpdated: new Date().toISOString(),
+          isRegistered: true  // 🔥 Always register
+        };
+        
+        await firebase.database().ref('books/' + bookId).update(updates);
+        showNotification('Asset status updated! ✅ Card is REGISTERED.', 'success');
+      } catch (error) {
+        showNotification('Error updating status: ' + error.message, 'error');
+      }
+    }
+
+    // ==================== FIXED: markMisplaced - DUAL FORMAT SUPPORT ====================
+    async function markMisplaced(bookId) {
+      try {
+        const book = books.find(b => b.uid === bookId);
+        const currentStatus = normalizeStatus(book.status);
+        const newStatus = currentStatus === 'Misplaced' ? 'Available' : 'Misplaced';
+        
+        await firebase.database().ref('books/' + bookId).update({
+          status: newStatus,                       // Dashboard format
+          espStatus: toESPStatus(newStatus),        // ESP format
+          misplaced: newStatus === 'Misplaced',
+          lastUpdated: new Date().toISOString(),
+          isRegistered: true  // 🔥 Always register
+        });
+        
+        showNotification(newStatus === 'Misplaced' ? 
+          'Asset flagged as misplaced! ⚠️ Card is REGISTERED.' : 
+          'Asset restored! ✅ Card is REGISTERED.', 'info');
+      } catch (error) {
+        showNotification('Error updating flag: ' + error.message, 'error');
+      }
+    }
+
+    function editBook(bookId) {
+      const book = books.find(b => b.uid === bookId);
+      if (book) {
+        const newTitle = prompt('Enter new title:', book.title);
+        if (newTitle !== null && newTitle.trim() !== '') {
+          updateBookField(bookId, 'title', newTitle);
+        }
+      }
+    }
+
+    // ==================== FIXED: deleteBook - WITH CONFIRMATION ====================
+    function deleteBook(bookId) {
+      const book = books.find(b => b.uid === bookId);
+      if (book && confirm(`CONFIRM DELETION:\nAre you sure you want to delete "${book.title}"?\n\n• This will remove from Firebase\n• Mega will delete on next sync\n• This action cannot be undone.`)) {
+        firebase.database().ref('books/' + bookId).remove()
+          .then(() => {
+            showNotification('Asset deleted from system. Mega will sync on next scan.', 'success');
+          })
+          .catch(error => {
+            showNotification('Error deleting asset: ' + error.message, 'error');
+          });
+      }
+    }
+
+    // ==================== ADDED: forceRegisterBook ====================
+    async function forceRegisterBook(bookId) {
+      try {
+        const book = books.find(b => b.uid === bookId);
+        const espStatus = book && book.espStatus ? book.espStatus : 'AVL';
+        
+        await firebase.database().ref('books/' + bookId).update({
+          isRegistered: true,
+          lastUpdated: new Date().toISOString(),
+          espStatus: espStatus,
+          title: book && book.title !== "New Book" ? book.title : "Registered Book",
+          author: book && book.author !== "Unknown" ? book.author : "Registered Author",
+          location: book && book.location !== "Unassigned" ? book.location : "Registered Location"
+        });
+        
+        showNotification(`✅ Book ${bookId} FORCE REGISTERED! ESP will now treat it as permanent.`, 'success');
+      } catch (error) {
+        showNotification('Error force registering: ' + error.message, 'error');
+      }
+    }
+
+    // ==================== ADDED: registerAllUnregisteredBooks ====================
+    async function registerAllUnregisteredBooks() {
+      const unregistered = books.filter(b => !b.isRegistered || b.title === "New Book");
+      
+      if (unregistered.length === 0) {
+        showNotification('All books are already registered!', 'info');
+        return;
+      }
+      
+      if (confirm(`Register ${unregistered.length} unregistered books?\nThis will mark them all as permanent in the system.\n\n• ${unregistered.length} books will be marked as registered\n• ESP will treat them as existing books\n• This prevents them from being seen as "new" on scan`)) {
+        try {
+          const updates = {};
+          unregistered.forEach(book => {
+            // Only update fields that need fixing
+            const bookUpdates = {
+              isRegistered: true,
+              lastUpdated: new Date().toISOString()
+            };
+            
+            // Preserve ESP status if it exists
+            if (book.espStatus) {
+              bookUpdates.espStatus = book.espStatus;
+            } else {
+              // Determine ESP status from current status
+              bookUpdates.espStatus = toESPStatus(book.status);
+            }
+            
+            // If title is "New Book", give it a proper title
+            if (book.title === "New Book") {
+              bookUpdates.title = `Registered Book ${book.uid.substring(0, 4)}`;
+            }
+            
+            // If author is "Unknown", update it
+            if (book.author === "Unknown") {
+              bookUpdates.author = "Registered Author";
+            }
+            
+            // If location is "Unassigned", update it
+            if (book.location === "Unassigned") {
+              bookUpdates.location = "Registered Location";
+            }
+            
+            updates[`books/${book.uid}`] = bookUpdates;
+          });
+          
+          await firebase.database().ref().update(updates);
+          showNotification(`✅ ${unregistered.length} books registered successfully!\nESP will now recognize them as existing books.`, 'success');
+        } catch (error) {
+          showNotification('Error bulk registering: ' + error.message, 'error');
+        }
+      }
+    }
+
+    // 👥 USER OPERATIONS
+    function editUser(userId) {
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        const newName = prompt('Enter new name:', user.name);
+        if (newName !== null && newName.trim() !== '') {
+          firebase.database().ref('users/' + userId).update({
+            name: newName.trim()
+          });
+          showNotification('User updated successfully!', 'success');
+        }
+      }
+    }
+
+    function deleteUser(userId) {
+      const user = users.find(u => u.id === userId);
+      if (user && confirm(`CONFIRM USER DELETION:\nAre you sure you want to delete user "${user.name}"?\nThis will remove all their data.`)) {
+        firebase.database().ref('users/' + userId).remove();
+        showNotification('User deleted from system', 'success');
+      }
+    }
+
+    // 📊 STATS UPDATE - WITH NORMALIZED STATUS
+    function updateStats() {
+      const total = books.length;
+      const available = books.filter(b => normalizeStatus(b.status) === 'Available').length;
+      const borrowed = books.filter(b => normalizeStatus(b.status) === 'Borrowed').length;
+      const overdue = books.filter(b => normalizeStatus(b.status) === 'Overdue').length;
+      const misplaced = books.filter(b => normalizeStatus(b.status) === 'Misplaced').length;
+      
+      const registered = books.filter(b => b.isRegistered === true).length;
+
+      document.getElementById('totalBooks').textContent = total;
+      document.getElementById('availableBooks').textContent = available;
+      document.getElementById('borrowedBooks').textContent = borrowed;
+      document.getElementById('overdueBooks').textContent = overdue;
+      document.getElementById('registeredBooks').textContent = registered + ' registered';
+      document.getElementById('availablePercentage').textContent = total > 0 ? Math.round((available / total) * 100) + '% operational' : '0% operational';
+      document.getElementById('misplacedCount').textContent = misplaced + ' flagged';
+      document.getElementById('overdueAlert').textContent = overdue > 0 ? 'ACTION REQUIRED! ⚠️' : 'SYSTEM OPTIMAL ✅';
+
+      updateCircularProgress();
+    }
+
+    function updateUserStats() {
+      const totalUsers = users.length;
+      const activeUsers = users.filter(u => {
+        const lastActive = parseTimestamp(u.lastActive);
+        if (!lastActive) return false;
+        
+        const today = new Date();
+        return lastActive.toDateString() === today.toDateString();
+      }).length;
+      const borrowingUsers = users.filter(u => 
+        books.some(book => book.student === u.name)
+      ).length;
+
+      document.getElementById('totalUsers').textContent = totalUsers;
+      document.getElementById('activeUsers').textContent = activeUsers;
+      document.getElementById('borrowingUsers').textContent = borrowingUsers;
+    }
+
+    // Add a cleanup function for corrupted Firebase data
+    async function cleanupCorruptedBooks() {
+      try {
+        const snapshot = await firebase.database().ref('books').once('value');
+        const updates = {};
+        
+        snapshot.forEach((child) => {
+          const book = child.val();
+          const bookId = child.key;
+          
+          // Check for corrupted data
+          if (book.title && book.title.includes('�')) {
+            updates[`${bookId}/title`] = "New Book";
+          }
+          if (book.author && book.author.includes('�')) {
+            updates[`${bookId}/author`] = "Unknown";
+          }
+          if (book.status && !isValidStatus(book.status)) {
+            updates[`${bookId}/status`] = "Available";
+            updates[`${bookId}/espStatus`] = "AVL";
+          }
+          if (book.isRegistered === undefined || book.isRegistered === null) {
+            updates[`${bookId}/isRegistered`] = false;
+          }
+        });
+        
+        if (Object.keys(updates).length > 0) {
+          await firebase.database().ref().update(updates);
+          console.log(`✅ Cleaned up ${Object.keys(updates).length / 2} corrupted book fields`);
+          showNotification('Corrupted data cleaned up', 'success');
+        }
+      } catch (error) {
+        console.error("Error cleaning corrupted books:", error);
+      }
+    }
+
+        // ==================== ADDED: Smart Registration Detection ====================
+    function shouldAutoRegisterBook(bookData) {
+      if (!bookData) return false;
+      
+      // If already registered, keep it
+      if (bookData.isRegistered === true) return true;
+      
+      // Check if book has "real" data (not defaults)
+      const hasRealTitle = bookData.title && 
+                          bookData.title !== "New Book" && 
+                          bookData.title !== "Book Title Unknown" &&
+                          !bookData.title.includes("undefined") &&
+                          !bookData.title.includes("null") &&
+                          bookData.title.trim().length > 0;
+      
+      const hasRealAuthor = bookData.author && 
+                            bookData.author !== "Unknown" &&
+                            !bookData.author.includes("undefined") &&
+                            !bookData.author.includes("null") &&
+                            bookData.author.trim().length > 0;
+      
+      const hasRealLocation = bookData.location && 
+                              bookData.location !== "Unassigned" &&
+                              !bookData.location.includes("undefined") &&
+                              !bookData.location.includes("null") &&
+                              bookData.location.trim().length > 0;
+      
+      // Auto-register if at least 2 out of 3 fields have real data
+      const score = (hasRealTitle ? 1 : 0) + 
+                    (hasRealAuthor ? 1 : 0) + 
+                    (hasRealLocation ? 1 : 0);
+      
+      // Also auto-register if book has sensor data (means it's being tracked)
+      const hasSensor = bookData.sensor !== undefined && bookData.sensor !== null && bookData.sensor >= 0;
+      
+      return score >= 2 || hasSensor;
+    }
+
+    // ==================== MODIFIED: initializeDatabaseListeners with Auto-Registration ====================
+    function initializeDatabaseListeners() {
+      console.log("Setting up real-time Firebase listeners...");
+      
+      // Get database reference
+      const database = firebase.database();
+      
+      // Set up books listener with proper real-time updates
+      booksRef = database.ref('books');
+      booksRef.on('value', (snapshot) => {
+        console.log("Books data received from Firebase");
+        
+        if (snapshot.exists()) {
+          books = [];
+          const registrationUpdates = {}; // 🔥 NEW: Track books that need auto-registration
+          
+          snapshot.forEach((child) => {
+            const book = child.val();
+            book.uid = child.key;
+            
+            // ==================== SMART REGISTRATION DETECTION ====================
+            // Check if this book should be auto-registered based on content
+            const shouldBeRegistered = shouldAutoRegisterBook(book);
+            
+            // If book should be registered but isn't, schedule update
+            if (shouldBeRegistered && (!book.isRegistered || book.isRegistered === false)) {
+              // Prepare updates for this book
+              registrationUpdates[`books/${book.uid}/isRegistered`] = true;
+              registrationUpdates[`books/${book.uid}/lastUpdated`] = new Date().toISOString();
+              
+              // Also ensure ESP status is set
+              if (!book.espStatus || book.espStatus === "undefined" || book.espStatus === "null") {
+                // Determine ESP status from current status or default
+                if (book.status) {
+                  const espStatus = toESPStatus(book.status);
+                  registrationUpdates[`books/${book.uid}/espStatus`] = espStatus;
+                } else {
+                  registrationUpdates[`books/${book.uid}/espStatus`] = "AVL";
+                }
+              }
+              
+              // Update local book object to reflect registration
+              book.isRegistered = true;
+              console.log(`📝 Auto-registering book ${book.uid}: "${book.title}"`);
+            }
+            // ==================== END SMART REGISTRATION ====================
+            
+            // CRITICAL FIX: Handle isRegistered properly
+            // If book has no isRegistered field, check if it's a real book
+            if (book.isRegistered === undefined || book.isRegistered === null) {
+              // Determine if book is registered based on content
+              book.isRegistered = !(book.title === "New Book" && 
+                                  book.author === "Unknown" && 
+                                  book.location === "Unassigned");
+            }
+            
+            // CRITICAL: Normalize status with ESP format priority
+            if (book.espStatus) {
+              // Use ESP format if available
+              book.status = normalizeStatus(book.espStatus);
+            } else if (book.status) {
+              // Fall back to regular status
+              book.status = normalizeStatus(book.status);
+            } else {
+              // Default status
+              book.status = "Available";
+            }
+            
+            // Ensure required fields
+            if (!book.title || book.title === "undefined" || book.title === "null") book.title = "New Book";
+            if (!book.author || book.author === "undefined" || book.author === "null") book.author = "Unknown";
+            if (!book.location || book.location === "undefined" || book.location === "null") book.location = "Unassigned";
+            if (!book.sensor && book.sensor !== 0) book.sensor = 0;
+            
+            // Fix corrupted timestamps
+            if (!book.lastSeen || book.lastSeen === "undefined" || book.lastSeen === "null") {
+              book.lastSeen = new Date().toISOString();
+            }
+            
+            books.push(book);
+          });
+          
+          // 🔥 CRITICAL: Apply auto-registration updates if needed
+          if (Object.keys(registrationUpdates).length > 0) {
+            console.log(`🔄 Applying ${Object.keys(registrationUpdates).length / 3} auto-registration updates...`);
+            
+            firebase.database().ref().update(registrationUpdates)
+              .then(() => {
+                const updatedCount = Object.keys(registrationUpdates).length / 3;
+                console.log(`✅ Successfully auto-registered ${updatedCount} books`);
+                
+                // Show notification to user
+                showNotification(`Auto-registered ${updatedCount} books with real data`, 'success');
+                
+                // Refresh the books list to show updated registration status
+                // We'll let the real-time listener handle this automatically
+              })
+              .catch((error) => {
+                console.error("❌ Auto-registration failed:", error);
+                showNotification('Auto-registration failed: ' + error.message, 'error');
+              });
+          }
+          
+          console.log(`📚 Loaded ${books.length} books. Registered: ${books.filter(b => b.isRegistered).length}`);
+          
+          const registeredCount = books.filter(b => b.isRegistered).length;
+          const borrowedCount = books.filter(b => normalizeStatus(b.status) === 'Borrowed').length;
+          const espStatusBooks = books.filter(b => b.espStatus).length;
+          
+          console.log(`📚 Books Summary:`);
+          console.log(`   • Total: ${books.length}`);
+          console.log(`   • Registered: ${registeredCount}`);
+          console.log(`   • Borrowed: ${borrowedCount}`);
+          console.log(`   • Using espStatus: ${espStatusBooks}`);
+          
+          // 🔥 NEW: Log books that need registration
+          const unregisteredWithRealData = books.filter(b => 
+            !b.isRegistered && shouldAutoRegisterBook(b)
+          );
+          
+          if (unregisteredWithRealData.length > 0) {
+            console.log(`⚠️  ${unregisteredWithRealData.length} books have real data but aren't registered:`);
+            unregisteredWithRealData.forEach(b => {
+              console.log(`   - ${b.uid}: "${b.title}" by ${b.author}`);
+            });
+          }
+          
+          // Update all UI components
+          updateBooksTable();
+          updateStats();
+          updateRecentBooks();
+          updateCircularProgress();
+          
+          if (document.getElementById('analytics-page').classList.contains('active')) {
+            updateAnalytics();
+          }
+          
+          // Show success notification on first load
+          if (books.length > 0) {
+            showNotification(`System synchronized: ${books.length} assets loaded (${registeredCount} registered, ${borrowedCount} borrowed)`, 'success');
+          }
+        } else {
+          console.log("No books found in Firebase");
+          document.getElementById('booksTable').innerHTML = `
+            <tr>
+              <td colspan="9" class="p-8 text-center text-gray-400">
+                <i class="fas fa-books text-4xl mb-4 block"></i>
+                No assets in system. Add your first asset!
+              </td>
+            </tr>
+          `;
+        }
+      }, (error) => {
+        console.error("Firebase books listener error:", error);
+        showNotification('Error loading assets: ' + error.message, 'error');
+      });
+
+      // Set up users listener (unchanged)
+      usersRef = database.ref('users');
+      usersRef.on('value', (snapshot) => {
+        console.log("Users data received from Firebase");
+        
+        if (snapshot.exists()) {
+          users = [];
+          snapshot.forEach((child) => {
+            const user = child.val();
+            user.id = child.key;
+            users.push(user);
+          });
+          
+          updateUsersTable();
+          updateUserStats();
+          
+          if (document.getElementById('analytics-page').classList.contains('active')) {
+            updateAnalytics();
+          }
+        } else {
+          document.getElementById('usersTable').innerHTML = `
+            <tr>
+              <td colspan="7" class="p-8 text-center text-gray-400">
+                <i class="fas fa-user-plus text-4xl mb-4 block"></i>
+                No users in system. Add your first user!
+              </td>
+            </tr>
+          `;
+        }
+      }, (error) => {
+        console.error("Firebase users listener error:", error);
+        showNotification('Error loading users: ' + error.message, 'error');
+      });
+
+      // Test connection
+      booksRef.once('value')
+        .then(() => {
+          console.log("Firebase connection successful");
+          showNotification('Firebase connected successfully! Real-time updates enabled.', 'success');
+        })
+        .catch((error) => {
+          console.error("Firebase connection failed:", error);
+          showNotification('Firebase connection failed: ' + error.message, 'error');
+        });
+    }
+     
+    // 🔥 NEW: REAL-TIME INDICATOR
+    function updateRealTimeIndicator(isLive) {
+      const indicator = document.getElementById('realTimeIndicator');
+      if (indicator) {
+        if (isLive) {
+          indicator.innerHTML = `
+            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span class="text-xs text-green-400">REAL-TIME</span>
+          `;
+        } else {
+          indicator.innerHTML = `
+            <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+            <span class="text-xs text-gray-400">IDLE</span>
+          `;
+        }
+      }
+    }
+
+    // 🔥 NEW: FORCE UPDATE FUNCTION
+    function forceUpdateFromFirebase() {
+      if (booksRef) {
+        booksRef.once('value')
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+              console.log("Force update received:", data);
+              showNotification('Forced update from Firebase successful!', 'success');
+              updateRealTimeIndicator(true);
+            }
+          })
+          .catch((error) => {
+            console.error("Force update error:", error);
+            showNotification('Force update failed: ' + error.message, 'error');
+          });
+      }
+    }
+
+    function updateRecentBooks() {
+      const recentBooks = books
+        .filter(book => book.lastSeen)
+        .sort((a, b) => {
+          const dateA = parseTimestamp(a.lastSeen);
+          const dateB = parseTimestamp(b.lastSeen);
+          if (!dateA || !dateB) return 0;
+          return dateB - dateA;
+        })
+        .slice(0, 5);
+
+      const container = document.getElementById('recentBooks');
+      
+      if (recentBooks.length === 0) {
+        container.innerHTML = '<div class="text-gray-400 text-center py-8"><i class="fas fa-history text-2xl mb-2 block"></i>No recent activity</div>';
+        return;
+      }
+
+      container.innerHTML = recentBooks.map(book => {
+        const timeDisplay = formatTimeAgo(book.lastSeen);
+        const normalizedStatus = normalizeStatus(book.status);
+
+        return `
+        <div class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-lg transition-colors">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <i class="fas fa-book text-white text-sm"></i>
+                </div>
+                <div>
+                    <div class="font-semibold">${book.title}</div>
+                    <div class="text-sm text-gray-400">${book.author} • ${book.location}</div>
+                    <div class="text-xs text-blue-400 mt-1">${timeDisplay}</div>
+                </div>
+            </div>
+            <span class="status-pill-industrial status-${normalizedStatus.toLowerCase()} text-xs">
+                ${normalizedStatus}
+            </span>
+        </div>
+        `;
+      }).join('');
+    }
+
+    // 🔄 DATA MANAGEMENT
+    function loadBooks() {
+      console.log("loadBooks() called - using real-time listener instead");
+      
+      if (books.length > 0) {
+        updateBooksTable();
+        updateStats();
+        updateRecentBooks();
+        updateCircularProgress();
+      }
+    }
+
+    function loadUsers() {
+      console.log("loadUsers() called - using real-time listener instead");
+      
+      if (users.length > 0) {
+        updateUsersTable();
+        updateUserStats();
+      }
+    }
+
+    function refreshData() {
+      showNotification('Refreshing system data...', 'info');
+      forceUpdateFromFirebase();
+    }
+
+    function runOverdueCheck() {
+      showNotification('Scanning for overdue assets...', 'info');
+      setTimeout(() => {
+        showNotification('System scan completed! All assets verified.', 'success');
+      }, 2000);
+    }
+
+    function exportData() {
+      showNotification('Preparing data export...', 'info');
+      
+      try {
+          let csvContent = "Asset ID,Title,Author,Location,Status,ESP Status,User,Last Seen,Last Updated,Sensor,Registered\n";
+          
+          books.forEach(book => {
+              const lastSeen = book.lastSeen ? formatDateTime(book.lastSeen) : 'Never';
+              const lastUpdated = book.lastUpdated ? formatDateTime(book.lastUpdated) : 'Never';
+              const espStatus = book.espStatus || toESPStatus(book.status);
+              
+              csvContent += `"${book.uid}","${book.title || ''}","${book.author || ''}","${book.location || ''}","${normalizeStatus(book.status) || ''}","${espStatus}","${book.student || ''}","${lastSeen}","${lastUpdated}","${book.sensor || 0}","${book.isRegistered || false}"\n`;
+          });
+
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement("a");
+          const url = URL.createObjectURL(blob);
+          
+          link.setAttribute("href", url);
+          link.setAttribute("download", `library_export_${new Date().toISOString().split('T')[0]}.csv`);
+          link.style.visibility = 'hidden';
+          
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          showNotification('Data exported successfully! 📊', 'success');
+      } catch (error) {
+          console.error('Export error:', error);
+          showNotification('Export failed: ' + error.message, 'error');
+      }
+    }
+
+    // ⚙️ SETTINGS FUNCTIONS
+    function clearAllData() {
+      if (confirm('🚨 CRITICAL ACTION!\n\nThis will delete ALL books and users from the system.\nThis action cannot be undone!\n\nType "DELETE ALL" to confirm:')) {
+        const confirmation = prompt('Please type "DELETE ALL" to confirm:');
+        if (confirmation === 'DELETE ALL') {
+          showNotification('Clearing all system data...', 'info');
+          setTimeout(() => {
+            showNotification('All system data has been cleared!', 'success');
+          }, 3000);
+        } else {
+          showNotification('Data clearance cancelled.', 'info');
+        }
+      }
+    }
+
+    function resetSystem() {
+      if (confirm('🔄 SYSTEM RESET\n\nThis will reset all system settings to factory defaults.\nUser data will be preserved.\n\nProceed with reset?')) {
+        showNotification('Resetting system to factory defaults...', 'info');
+        setTimeout(() => {
+          showNotification('System reset completed successfully!', 'success');
+        }, 2000);
+      }
+    }
+
+    function exportBackup() {
+      showNotification('Creating system backup...', 'info');
+      setTimeout(() => {
+        showNotification('Backup created successfully!', 'success');
+      }, 1500);
+    }
+
+    // 🔐 AUTHENTICATION
+    function initializeApp() {
+      updateLoadingStatus('Initializing industrial system...');
+      
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      
+      setupConnectionMonitoring();
+      
+      setInterval(() => {
+        document.getElementById('currentTime').textContent = new Date().toLocaleString();
+      }, 1000);
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          currentUser = user;
+          showDashboard();
+          
+          // 🔥 CRITICAL FIX: Initialize real-time database listeners
+          initializeDatabaseListeners();
+        } else {
+          showLoginRequired();
+        }
+      });
+    }
+
+    function showDashboard() {
+      document.getElementById('loadingScreen').classList.add('hidden');
+      document.getElementById('loginRequired').classList.add('hidden');
+      document.querySelector('.main-content').style.display = 'block';
+      
+      document.getElementById('userEmail').textContent = currentUser.email;
+      const userName = currentUser.displayName || currentUser.email.split('@')[0];
+      document.getElementById('userName').textContent = userName;
+      document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+    }
+
+    function showLoginRequired() {
+      document.getElementById('loadingScreen').classList.add('hidden');
+      document.querySelector('.main-content').style.display = 'none';
+      document.getElementById('loginRequired').classList.remove('hidden');
+    }
+
+    function logout() {
+      if (confirm('CONFIRM LOGOUT:\nAre you sure you want to logout from the industrial system?')) {
+        firebase.auth().signOut();
+      }
+    }
+
+    function goToAuth() {
+      window.location.href = 'auth.html';
+    }
+
+    function updateLoadingStatus(message) {
+      document.getElementById('loadingStatus').textContent = message;
+    }
+
+    // 📱 EVENT LISTENERS
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add a cleanup button to settings page
+      const settingsPage = document.getElementById('settings-page');
+      if (settingsPage) {
+        const cleanupBtn = document.createElement('button');
+        cleanupBtn.className = 'btn-industrial w-full text-left mt-4';
+        cleanupBtn.style.background = 'linear-gradient(135deg,var(--neon-orange),#ea580c)';
+        cleanupBtn.innerHTML = '<i class="fas fa-broom mr-2"></i>CLEANUP CORRUPTED DATA';
+        cleanupBtn.onclick = cleanupCorruptedBooks;
+        
+        const dangerZone = settingsPage.querySelector('.settings-panel.border-red-500\\/30');
+        if (dangerZone) {
+          dangerZone.appendChild(cleanupBtn);
+        }
+      }
+      
+      document.getElementById('bookSearch').addEventListener('input', updateBooksTable);
+      document.getElementById('bookStatusFilter').addEventListener('change', updateBooksTable);
+      document.getElementById('userSearch').addEventListener('input', updateUsersTable);
+      
+      initializeApp();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../B-MEGA"
+		},
+		{
+			"name": "MEGA-WIF",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "MEGA-WIF"
+	}
+}
