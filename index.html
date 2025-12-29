@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes, viewport-fit=cover">
   <title>🚀 LeejinBotics Library - INDUSTRIAL PRO DASHBOARD</title>
 
   <!-- Firebase -->
@@ -37,14 +37,26 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html, body { 
       height: 100%; 
+      width: 100%;
       background: linear-gradient(135deg, #0a0a0f 0%, #1e1b2e 50%, #151522 100%);
       color: #f8fafc; 
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+    }
+
+    /* Prevent body scroll when sidebar is open */
+    body.sidebar-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
     }
 
     /* 🏭 INDUSTRIAL GLASS EFFECT */
@@ -72,13 +84,13 @@
     /* 🌐 CONNECTION INDICATOR */
     .connection-indicator {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 15px;
+      right: 15px;
       z-index: 1000;
-      padding: 12px 20px;
+      padding: 10px 15px;
       border-radius: 25px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -113,32 +125,46 @@
       50% { box-shadow: 0 0 30px rgba(239, 68, 68, 1); }
     }
 
-    /* 🎠 SIDEBAR */
+    /* 🎠 SIDEBAR - FIXED FOR MOBILE */
     .sidebar {
       width: 280px;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
       backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
       border-right: 1px solid rgba(255,255,255,0.1);
       height: 100vh;
+      height: 100dvh;
       position: fixed;
       left: 0;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       display: flex;
       flex-direction: column;
       box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sidebar.active {
+      transform: translateX(0);
     }
 
     .sidebar-header {
-      padding: 30px 20px;
+      padding: 25px 20px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.95);
+      z-index: 1;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 800;
       background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
       -webkit-background-clip: text;
@@ -158,8 +184,8 @@
     }
 
     .nav-item {
-      padding: 15px 20px;
-      margin: 5px 15px;
+      padding: 18px 20px;
+      margin: 4px 15px;
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -169,6 +195,8 @@
       font-weight: 600;
       color: #94a3b8;
       border: 2px solid transparent;
+      font-size: 0.9rem;
+      min-height: 56px;
     }
 
     .nav-item.active {
@@ -188,13 +216,14 @@
       width: 24px;
       text-align: center;
       font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     /* 📊 CIRCULAR PROGRESS - INDUSTRIAL */
     .circular-progress-industrial {
       position: relative;
-      width: 160px;
-      height: 160px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -229,7 +258,7 @@
     .btn-industrial {
       background: linear-gradient(135deg, var(--industrial-blue), var(--accent-2));
       color: white;
-      padding: 14px 28px;
+      padding: 16px 24px;
       border-radius: 12px;
       font-weight: 700;
       border: none;
@@ -241,7 +270,12 @@
       border: 2px solid rgba(59, 130, 246, 0.3);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
 
     .btn-industrial::before {
@@ -267,7 +301,7 @@
 
     /* 🔥 STATUS PILLS - INDUSTRIAL */
     .status-pill-industrial {
-      padding: 10px 20px;
+      padding: 12px 18px;
       border-radius: 20px;
       font-weight: 700;
       font-size: 0.75rem;
@@ -278,6 +312,10 @@
       box-shadow: 0 0 20px currentColor;
       cursor: pointer;
       background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .status-available { 
@@ -323,15 +361,20 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: 2000;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
+      padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .modal-industrial.active {
@@ -342,10 +385,14 @@
     .modal-content-industrial {
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
       backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
       border-radius: 20px;
-      padding: 30px;
-      width: 90%;
+      padding: 25px;
+      width: 100%;
       max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       transform: scale(0.8) translateY(50px);
       opacity: 0;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -364,12 +411,14 @@
       border: 2px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       color: white;
-      padding: 14px 18px;
+      padding: 16px;
       width: 100%;
       outline: none;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      min-height: 56px;
     }
 
     .input-industrial:focus {
@@ -381,9 +430,11 @@
 
     /* 🏷️ MAIN CONTENT */
     .main-content {
-      margin-left: 280px;
-      padding: 20px;
+      margin-left: 0;
+      padding: 80px 15px 20px;
       min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
     }
 
     /* 📊 STATS CARDS - INDUSTRIAL */
@@ -391,6 +442,9 @@
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
     }
 
     .stat-card-industrial::after {
@@ -416,6 +470,7 @@
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       border-left: 4px solid transparent;
       border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(15, 23, 42, 0.5);
     }
 
     .book-card-industrial:hover {
@@ -435,13 +490,18 @@
       box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
     }
 
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     /* 🎪 NOTIFICATIONS - INDUSTRIAL */
     .notification-industrial {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(-100px);
-      padding: 18px 28px;
+      padding: 18px 24px;
       border-radius: 12px;
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
       border-left: 4px solid;
@@ -450,6 +510,9 @@
       z-index: 1000;
       border: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      max-width: 90%;
+      width: auto;
     }
 
     .notification-industrial.show {
@@ -465,6 +528,7 @@
       margin-top: auto;
       padding: 20px;
       border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(15, 23, 42, 0.5);
     }
 
     .user-avatar {
@@ -485,7 +549,7 @@
 
     /* 🏭 INDUSTRIAL BADGES */
     .industrial-badge {
-      padding: 6px 12px;
+      padding: 8px 16px;
       border-radius: 20px;
       font-size: 0.7rem;
       font-weight: 700;
@@ -494,34 +558,36 @@
       background: linear-gradient(135deg, var(--industrial-orange), #dc2626);
       color: white;
       box-shadow: 0 5px 15px rgba(234, 88, 12, 0.4);
+      display: inline-block;
     }
 
     /* ✨ CONTRIBUTOR SECTION */
     .contributor-section {
       text-align: center;
-      padding: 30px 20px;
-      margin-top: 40px;
+      padding: 25px 20px;
+      margin-top: 20px;
       border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(15, 23, 42, 0.3);
     }
 
     .contributor-avatar {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
       margin: 0 auto 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: white;
-      border: 4px solid rgba(255,255,255,0.2);
-      box-shadow: 0 0 40px rgba(236, 72, 153, 0.6);
+      border: 3px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
     }
 
     /* 🎯 ACTION BUTTONS */
     .action-btn {
-      padding: 10px 15px;
+      padding: 12px;
       border-radius: 10px;
       border: 2px solid;
       background: transparent;
@@ -529,6 +595,11 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 0.8rem;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .action-btn:hover {
@@ -545,6 +616,7 @@
       border-radius: 12px;
       padding: 20px;
       border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 15px;
     }
 
     /* 🎛️ SETTINGS PANELS */
@@ -553,13 +625,14 @@
       border-radius: 12px;
       padding: 20px;
       border: 1px solid rgba(255,255,255,0.1);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     /* 🎨 PAGE TRANSITIONS */
     .page {
       display: none;
       animation: fadeIn 0.5s ease-in-out;
+      width: 100%;
     }
 
     .page.active {
@@ -571,25 +644,415 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 📱 RESPONSIVE DESIGN */
-    @media (max-width: 768px) {
-      .sidebar {
+    /* 📱 MOBILE HAMBURGER MENU */
+    .mobile-menu-btn {
+      display: flex;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1001;
+      background: linear-gradient(135deg, var(--industrial-blue), var(--accent-2));
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ========== ENHANCED MOBILE RESPONSIVE STYLES ========== */
+    /* 📱 MOBILE (SMALL SCREENS) */
+    @media (max-width: 767px) {
+      /* 🔥 IMPROVED: Prevent horizontal overflow */
+      html, body {
+        overflow-x: hidden;
         width: 100%;
-        height: auto;
         position: relative;
       }
       
+      /* 🔥 FIX: Main content padding for mobile */
       .main-content {
-        margin-left: 0;
+        padding: 70px 12px 15px;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      
+      /* 🔥 FIX: Dashboard header */
+      .main-content .industrial-glass.p-8.mb-8 {
+        padding: 20px !important;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      /* 🔥 FIX: Stats grid - 2 columns */
+      .grid.grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      
+      /* 🔥 FIX: Stat cards */
+      .stat-card-industrial {
+        padding: 15px !important;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .stat-card-industrial .text-3xl {
+        font-size: 1.8rem !important;
+        line-height: 1.2;
+      }
+      
+      /* 🔥 FIX: Table container for horizontal scrolling */
+      .overflow-x-auto {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        margin: 0 -12px;
+        padding: 0 12px;
+      }
+      
+      /* 🔥 FIX: Table width for mobile */
+      table {
+        min-width: 800px;
+        width: 100%;
+      }
+      
+      /* 🔥 FIX: Table cells */
+      th, td {
+        padding: 12px 8px !important;
+        font-size: 0.85rem;
+        min-width: 100px;
+      }
+      
+      /* 🔥 FIX: Input fields for mobile */
+      input, select, textarea, .input-industrial {
+        font-size: 16px !important; /* Prevents iOS zoom */
+        min-height: 56px;
+        padding: 14px !important;
+      }
+      
+      /* 🔥 FIX: Buttons for mobile */
+      .btn-industrial {
+        padding: 16px 20px !important;
+        font-size: 0.9rem;
+        min-height: 56px;
+      }
+      
+      /* 🔥 FIX: Modal for mobile */
+      .modal-content-industrial {
+        padding: 20px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        max-height: 100vh;
+      }
+      
+      /* 🔥 FIX: Sidebar width for mobile */
+      .sidebar {
+        width: 85%;
+        max-width: 300px;
+      }
+      
+      /* 🔥 FIX: Navigation items touch size */
+      .nav-item {
+        padding: 18px 15px;
+        margin: 3px 10px;
+        font-size: 0.95rem;
+        min-height: 56px;
+      }
+      
+      /* 🔥 FIX: Action buttons spacing */
+      .action-btn {
+        margin: 2px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+      
+      /* 🔥 FIX: Circular progress */
+      .circular-progress-industrial {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+      }
+      
+      /* 🔥 FIX: Typography for mobile */
+      h1 { 
+        font-size: 1.6rem !important; 
+        line-height: 1.3;
+        word-break: break-word;
+      }
+      h2 { font-size: 1.4rem !important; }
+      h3 { font-size: 1.2rem !important; }
+      h4 { font-size: 1.1rem !important; }
+      .text-4xl { font-size: 2rem !important; }
+      .text-3xl { font-size: 1.8rem !important; }
+      .text-2xl { font-size: 1.5rem !important; }
+      .text-xl { font-size: 1.2rem !important; }
+      p { font-size: 0.95rem; line-height: 1.5; }
+      
+      /* 🔥 FIX: Grid layouts */
+      .grid.grid-cols-1.lg\\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+      }
+      
+      /* 🔥 FIX: Flex containers */
+      .flex.flex-col.md\\:flex-row {
+        flex-direction: column !important;
+        gap: 12px;
+      }
+      
+      /* 🔥 FIX: Search and filter inputs */
+      #bookSearch, #userSearch, #bookStatusFilter {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+      
+      /* 🔥 FIX: Connection indicator position */
+      .connection-indicator {
+        top: 15px;
+        right: 15px;
+        padding: 10px 12px;
+        font-size: 0.65rem;
+      }
+      
+      /* 🔥 FIX: Real-time indicator */
+      #realTimeIndicator {
+        font-size: 0.65rem;
+        padding: 6px 10px;
+      }
+    }
+
+    /* 📱 SMALL MOBILE (Extra Small) */
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 70px 10px 10px;
+      }
+      
+      .grid.grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+      }
+      
+      .stat-card-industrial {
+        padding: 12px !important;
+        min-height: 110px;
+      }
+      
+      .btn-industrial {
+        padding: 14px 16px !important;
+        font-size: 0.85rem;
+      }
+      
+      .sidebar {
+        width: 90%;
+      }
+    }
+
+    /* 📱 TABLET (MEDIUM SCREENS) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .sidebar {
+        width: 250px;
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 250px;
+        padding: 20px;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+      }
+      
+      .sidebar-overlay {
+        display: none;
+      }
+      
+      .grid.grid-cols-1.md\\:grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .grid.grid-cols-1.lg\\:grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+      
+      .circular-progress-industrial {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .overflow-x-auto {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      table {
+        min-width: 900px;
+      }
+    }
+
+    /* 💻 DESKTOP (LARGE SCREENS) */
+    @media (min-width: 1024px) {
+      .sidebar {
+        width: 280px;
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 280px;
+        padding: 20px;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+      }
+      
+      .sidebar-overlay {
+        display: none;
+      }
+    }
+
+    /* 🎯 TOUCH-FRIENDLY IMPROVEMENTS */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-industrial:hover,
+      .nav-item:hover:not(.active),
+      .book-card-industrial:hover,
+      .stat-card-industrial:hover::after {
+        transform: none;
+      }
+      
+      .btn-industrial:active,
+      .nav-item:active:not(.active) {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+      
+      .action-btn:active {
+        transform: scale(0.95);
       }
       
       .nav-item {
-        margin: 2px 5px;
+        padding: 18px 20px;
+        margin: 4px 15px;
       }
+      
+      .btn-industrial {
+        padding: 16px 24px;
+      }
+      
+      .action-btn {
+        padding: 12px;
+      }
+      
+      /* Improve touch scrolling */
+      * {
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* 📱 SAFARI IOS FIXES */
+    @supports (-webkit-touch-callout: none) {
+      html, body {
+        height: -webkit-fill-available;
+      }
+      
+      .sidebar {
+        height: -webkit-fill-available;
+      }
+      
+      .modal-industrial {
+        height: -webkit-fill-available;
+      }
+      
+      /* Fix for Safari bounce effect */
+      body {
+        overscroll-behavior-y: none;
+      }
+    }
+
+    /* 🔥 ENHANCED TABLE SCROLLING */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -12px;
+      padding: 0 12px;
+    }
+    
+    .table-container table {
+      min-width: 1000px;
+      width: 100%;
+    }
+    
+    /* 🔥 FIX: Prevent text selection on mobile */
+    .no-select {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* 🔥 FIX: Better tap highlights */
+    button, a, .nav-item, .action-btn {
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* 🔥 FIX: Smooth transitions */
+    * {
+      transition: all 0.2s ease;
     }
   </style>
 </head>
 <body>
+  <!-- 📱 MOBILE MENU BUTTON -->
+  <button id="mobileMenuBtn" class="mobile-menu-btn">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 📱 MOBILE OVERLAY -->
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
   <!-- 🌐 ONLINE/OFFLINE INDICATOR -->
   <div id="connectionIndicator" class="connection-indicator connection-online">
     <i class="fas fa-satellite-dish"></i>
@@ -597,7 +1060,7 @@
   </div>
 
   <!-- 🎠 SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <!-- Header -->
     <div class="sidebar-header">
       <div class="logo">
@@ -610,24 +1073,24 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 py-6">
-      <div class="nav-item active" onclick="showPage('dashboard-page')">
+    <nav class="flex-1 py-4">
+      <div class="nav-item active" onclick="showPage('dashboard-page'); toggleSidebar();">
         <div class="nav-icon"><i class="fas fa-gauge-high"></i></div>
         <span>DASHBOARD</span>
       </div>
-      <div class="nav-item" onclick="showPage('books-page')">
+      <div class="nav-item" onclick="showPage('books-page'); toggleSidebar();">
         <div class="nav-icon"><i class="fas fa-books"></i></div>
         <span>BOOK MANAGEMENT</span>
       </div>
-      <div class="nav-item" onclick="showPage('users-page')">
+      <div class="nav-item" onclick="showPage('users-page'); toggleSidebar();">
         <div class="nav-icon"><i class="fas fa-users-gear"></i></div>
         <span>USER CONTROL</span>
       </div>
-      <div class="nav-item" onclick="showPage('analytics-page')">
+      <div class="nav-item" onclick="showPage('analytics-page'); toggleSidebar();">
         <div class="nav-icon"><i class="fas fa-chart-network"></i></div>
         <span>ANALYTICS</span>
       </div>
-      <div class="nav-item" onclick="showPage('settings-page')">
+      <div class="nav-item" onclick="showPage('settings-page'); toggleSidebar();">
         <div class="nav-icon"><i class="fas fa-sliders"></i></div>
         <span>SYSTEM SETTINGS</span>
       </div>
@@ -640,7 +1103,7 @@
         <div class="font-semibold" id="userName">User Name</div>
         <div class="text-sm text-gray-400" id="userEmail">user@leejinbotics.com</div>
       </div>
-      <button onclick="logout()" class="btn-industrial w-full" style="padding: 10px; font-size: 0.8rem;">
+      <button onclick="logout()" class="btn-industrial" style="padding: 12px; font-size: 0.85rem;">
         <i class="fas fa-power-off mr-2"></i>LOGOUT SYSTEM
       </button>
     </div>
@@ -671,13 +1134,13 @@
 
   <!-- 🔐 LOGIN REQUIRED -->
   <div id="loginRequired" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50 hidden">
-    <div class="industrial-glass p-8 rounded-2xl text-center max-w-md">
-      <div class="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i class="fas fa-shield-exclamation text-red-400 text-4xl"></i>
+    <div class="industrial-glass p-6 md:p-8 rounded-2xl text-center max-w-md w-90">
+      <div class="w-20 h-20 md:w-24 md:h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+        <i class="fas fa-shield-exclamation text-red-400 text-3xl md:text-4xl"></i>
       </div>
-      <h2 class="text-2xl font-bold text-white mb-2">ACCESS DENIED</h2>
-      <p class="text-gray-400 mb-6">Authentication required to access industrial control system</p>
-      <button onclick="goToAuth()" class="btn-industrial w-full">
+      <h2 class="text-xl md:text-2xl font-bold text-white mb-2">ACCESS DENIED</h2>
+      <p class="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">Authentication required to access industrial control system</p>
+      <button onclick="goToAuth()" class="btn-industrial">
         <i class="fas fa-terminal mr-2"></i>ACCESS TERMINAL
       </button>
     </div>
@@ -688,64 +1151,64 @@
     <!-- 📊 DASHBOARD PAGE -->
     <div id="dashboard-page" class="page active">
       <!-- Header -->
-      <div class="industrial-glass p-8 mb-8">
-        <div class="flex justify-between items-center">
-          <div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+      <div class="industrial-glass p-6 mb-6">
+        <div class="flex flex-col gap-4">
+          <div class="flex-1">
+            <h1 class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent leading-tight">
               INDUSTRIAL LIBRARY CONTROL
             </h1>
-            <p class="text-gray-400 mt-2">Real-time monitoring and management system</p>
+            <p class="text-gray-400 mt-2 text-sm md:text-base">Real-time monitoring and management system</p>
           </div>
-          <div class="flex items-center gap-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
             <!-- 🔥 ADDED: Real-time indicator -->
-            <div class="flex items-center gap-2 bg-gray-800/50 px-3 py-1 rounded-full" id="realTimeIndicator">
+            <div class="flex items-center gap-2 bg-gray-800/50 px-3 py-2 rounded-full" id="realTimeIndicator">
               <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span class="text-xs text-green-400">REAL-TIME</span>
             </div>
             <div class="text-right">
-              <div class="font-semibold" id="currentTime">Loading...</div>
-              <div class="text-sm text-gray-400">System Time</div>
+              <div class="font-semibold text-sm md:text-base" id="currentTime">Loading...</div>
+              <div class="text-xs md:text-sm text-gray-400">System Time</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Stats Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="industrial-glass p-6 stat-card-industrial text-center">
-          <div class="text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
-          <div class="text-gray-400">TOTAL ASSETS</div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+        <div class="stat-card-industrial text-center">
+          <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
+          <div class="text-xs md:text-sm text-gray-400">TOTAL ASSETS</div>
           <div class="text-xs text-green-400 mt-2" id="registeredBooks">0 registered</div>
         </div>
-        <div class="industrial-glass p-6 stat-card-industrial text-center">
-          <div class="text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
-          <div class="text-gray-400">AVAILABLE</div>
+        <div class="stat-card-industrial text-center">
+          <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
+          <div class="text-xs md:text-sm text-gray-400">AVAILABLE</div>
           <div class="text-xs text-green-400 mt-2" id="availablePercentage">0% operational</div>
         </div>
-        <div class="industrial-glass p-6 stat-card-industrial text-center">
-          <div class="text-3xl font-bold text-yellow-400 mb-2" id="borrowedBooks">0</div>
-          <div class="text-gray-400">IN USE</div>
+        <div class="stat-card-industrial text-center">
+          <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowedBooks">0</div>
+          <div class="text-xs md:text-sm text-gray-400">IN USE</div>
           <div class="text-xs text-yellow-400 mt-2" id="misplacedCount">0 flagged</div>
         </div>
-        <div class="industrial-glass p-6 stat-card-industrial text-center">
-          <div class="text-3xl font-bold text-red-400 mb-2" id="overdueBooks">0</div>
-          <div class="text-gray-400">OVERDUE</div>
+        <div class="stat-card-industrial text-center">
+          <div class="text-2xl md:text-3xl font-bold text-red-400 mb-2" id="overdueBooks">0</div>
+          <div class="text-xs md:text-sm text-gray-400">OVERDUE</div>
           <div class="text-xs text-red-400 mt-2" id="overdueAlert">SYSTEM OPTIMAL</div>
         </div>
       </div>
 
       <!-- Circular Progress & Actions -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
         <!-- Circular Progress -->
-        <div class="industrial-glass p-8">
-          <h3 class="text-xl font-bold text-white mb-6 text-center">ASSET DISTRIBUTION</h3>
+        <div class="industrial-glass p-4 md:p-6">
+          <h3 class="text-lg md:text-xl font-bold text-white mb-4 text-center">ASSET DISTRIBUTION</h3>
           <div class="circular-progress-industrial" id="circularProgress">
             <div class="absolute text-center z-10">
-              <div class="text-2xl font-bold" id="circularTotal">0</div>
-              <div class="text-sm text-gray-400">TOTAL UNITS</div>
+              <div class="text-xl md:text-2xl font-bold" id="circularTotal">0</div>
+              <div class="text-xs md:text-sm text-gray-400">TOTAL UNITS</div>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-4 mt-8 text-sm">
+          <div class="grid grid-cols-2 gap-3 md:gap-4 mt-6 text-xs md:text-sm">
             <div class="flex items-center gap-3">
               <div class="w-3 h-3 rounded-full bg-green-400 shadow-lg shadow-green-400/50"></div>
               <span>Available: <span id="circularAvailable">0</span></span>
@@ -766,27 +1229,27 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="industrial-glass p-8">
-          <h3 class="text-xl font-bold text-white mb-6">CONTROL PANEL</h3>
-          <div class="space-y-4">
-            <button onclick="showAddBookModal()" class="btn-industrial w-full text-left">
+        <div class="industrial-glass p-4 md:p-6">
+          <h3 class="text-lg md:text-xl font-bold text-white mb-4">CONTROL PANEL</h3>
+          <div class="space-y-3">
+            <button onclick="showAddBookModal()" class="btn-industrial text-left text-sm md:text-base">
               <i class="fas fa-plus-circle mr-3"></i>ADD NEW ASSET
             </button>
-            <button onclick="runOverdueCheck()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-orange),#fb923c);">
+            <button onclick="runOverdueCheck()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#fb923c);">
               <i class="fas fa-radar-dish mr-3"></i>SCAN OVERDUE
             </button>
-            <button onclick="exportData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-green),#059669);">
+            <button onclick="exportData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#059669);">
               <i class="fas fa-database mr-3"></i>EXPORT DATA
             </button>
-            <button onclick="refreshData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+            <button onclick="refreshData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
               <i class="fas fa-arrows-rotate mr-3"></i>REFRESH SYSTEM
             </button>
             <!-- 🔥 ADDED: Force update button -->
-            <button onclick="forceUpdateFromFirebase()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-blue),#3b82f6);">
+            <button onclick="forceUpdateFromFirebase()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-blue),#3b82f6);">
               <i class="fas fa-bolt mr-3"></i>FORCE UPDATE
             </button>
             <!-- 🔥 ADDED: Register All Unregistered Books -->
-            <button onclick="registerAllUnregisteredBooks()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-green),#10b981);">
+            <button onclick="registerAllUnregisteredBooks()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#10b981);">
               <i class="fas fa-fingerprint mr-3"></i>REGISTER ALL UNREGISTERED
             </button>
           </div>
@@ -794,9 +1257,9 @@
       </div>
 
       <!-- Recent Activity -->
-      <div class="industrial-glass p-8">
-        <h3 class="text-xl font-bold text-white mb-6">RECENT ACTIVITY</h3>
-        <div id="recentBooks" class="text-gray-400 text-center py-8">
+      <div class="industrial-glass p-4 md:p-6">
+        <h3 class="text-lg md:text-xl font-bold text-white mb-4">RECENT ACTIVITY</h3>
+        <div id="recentBooks" class="text-gray-400 text-center py-4 md:py-6">
           <div class="loading-spinner-industrial mx-auto mb-4"></div>
           Loading system activity...
         </div>
@@ -805,12 +1268,12 @@
 
     <!-- 📚 BOOK MANAGEMENT PAGE -->
     <div id="books-page" class="page">
-      <div class="industrial-glass p-8">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <h3 class="text-2xl font-bold text-white">ASSET MANAGEMENT</h3>
-          <div class="flex gap-3">
-            <input type="text" id="bookSearch" placeholder="Search assets..." class="input-industrial" style="min-width: 300px;">
-            <select id="bookStatusFilter" class="input-industrial" style="min-width: 180px;">
+      <div class="industrial-glass p-4 md:p-6">
+        <div class="flex flex-col gap-4 mb-4 md:mb-6">
+          <h3 class="text-lg md:text-2xl font-bold text-white">ASSET MANAGEMENT</h3>
+          <div class="flex flex-col sm:flex-row gap-3 w-full">
+            <input type="text" id="bookSearch" placeholder="Search assets..." class="input-industrial">
+            <select id="bookStatusFilter" class="input-industrial">
               <option value="">ALL STATUS</option>
               <option value="Available">AVAILABLE</option>
               <option value="Borrowed">IN USE</option>
@@ -820,19 +1283,19 @@
           </div>
         </div>
         
-        <div class="overflow-x-auto">
-          <table class="w-full">
+        <div class="table-container">
+          <table class="w-full min-w-max">
             <thead>
               <tr class="border-b border-gray-700">
-                <th class="p-4 text-left">ASSET ID</th>
-                <th class="p-4 text-left">TITLE</th>
-                <th class="p-4 text-left">AUTHOR</th>
-                <th class="p-4 text-left">LOCATION</th>
-                <th class="p-4 text-left">STATUS</th>
-                <th class="p-4 text-left">USER</th>
-                <th class="p-4 text-left">LAST SCAN</th>
-                <th class="p-4 text-left">REGISTERED</th>
-                <th class="p-4 text-left">ACTIONS</th>
+                <th class="p-3 text-left min-w-24">ASSET ID</th>
+                <th class="p-3 text-left min-w-40">TITLE</th>
+                <th class="p-3 text-left min-w-32">AUTHOR</th>
+                <th class="p-3 text-left min-w-32">LOCATION</th>
+                <th class="p-3 text-left min-w-32">STATUS</th>
+                <th class="p-3 text-left min-w-32">USER</th>
+                <th class="p-3 text-left min-w-36">LAST SCAN</th>
+                <th class="p-3 text-left min-w-32">REGISTERED</th>
+                <th class="p-3 text-left min-w-36">ACTIONS</th>
               </tr>
             </thead>
             <tbody id="booksTable">
@@ -845,51 +1308,51 @@
 
     <!-- 👥 USER CONTROL PAGE -->
     <div id="users-page" class="page">
-      <div class="industrial-glass p-8">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <h3 class="text-2xl font-bold text-white">USER CONTROL PANEL</h3>
-          <div class="flex gap-3">
-            <input type="text" id="userSearch" placeholder="Search users..." class="input-industrial" style="min-width: 250px;">
-            <button onclick="showAddUserModal()" class="btn-industrial">
+      <div class="industrial-glass p-4 md:p-6">
+        <div class="flex flex-col gap-4 mb-4 md:mb-6">
+          <h3 class="text-lg md:text-2xl font-bold text-white">USER CONTROL PANEL</h3>
+          <div class="flex flex-col sm:flex-row gap-3 w-full">
+            <input type="text" id="userSearch" placeholder="Search users..." class="input-industrial">
+            <button onclick="showAddUserModal()" class="btn-industrial text-sm md:text-base">
               <i class="fas fa-user-plus mr-2"></i>ADD USER
             </button>
           </div>
         </div>
 
         <!-- User Statistics -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="industrial-glass p-6 text-center">
-            <div class="text-3xl font-bold text-blue-400 mb-2" id="totalUsers">0</div>
-            <div class="text-gray-400">REGISTERED USERS</div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalUsers">0</div>
+            <div class="text-xs md:text-sm text-gray-400">REGISTERED USERS</div>
           </div>
-          <div class="industrial-glass p-6 text-center">
-            <div class="text-3xl font-bold text-green-400 mb-2" id="activeUsers">0</div>
-            <div class="text-gray-400">ACTIVE TODAY</div>
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="activeUsers">0</div>
+            <div class="text-xs md:text-sm text-gray-400">ACTIVE TODAY</div>
           </div>
-          <div class="industrial-glass p-6 text-center">
-            <div class="text-3xl font-bold text-yellow-400 mb-2" id="borrowingUsers">0</div>
-            <div class="text-gray-400">CURRENTLY BORROWING</div>
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowingUsers">0</div>
+            <div class="text-xs md:text-sm text-gray-400">CURRENTLY BORROWING</div>
           </div>
         </div>
 
         <!-- Users Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full">
+        <div class="table-container">
+          <table class="w-full min-w-max">
             <thead>
               <tr class="border-b border-gray-700">
-                <th class="p-4 text-left">USER ID</th>
-                <th class="p-4 text-left">NAME</th>
-                <th class="p-4 text-left">EMAIL</th>
-                <th class="p-4 text-left">ROLE</th>
-                <th class="p-4 text-left">BORROWED ITEMS</th>
-                <th class="p-4 text-left">LAST ACTIVE</th>
-                <th class="p-4 text-left">ACTIONS</th>
+                <th class="p-3 text-left min-w-28">USER ID</th>
+                <th class="p-3 text-left min-w-40">NAME</th>
+                <th class="p-3 text-left min-w-48">EMAIL</th>
+                <th class="p-3 text-left min-w-32">ROLE</th>
+                <th class="p-3 text-left min-w-36">BORROWED ITEMS</th>
+                <th class="p-3 text-left min-w-36">LAST ACTIVE</th>
+                <th class="p-3 text-left min-w-36">ACTIONS</th>
               </tr>
             </thead>
             <tbody id="usersTable">
               <tr>
-                <td colspan="7" class="p-8 text-center text-gray-400">
-                  <i class="fas fa-users text-4xl mb-4 block"></i>
+                <td colspan="7" class="p-6 text-center text-gray-400">
+                  <i class="fas fa-users text-2xl md:text-3xl mb-4 block"></i>
                   Loading user data...
                 </td>
               </tr>
@@ -901,17 +1364,17 @@
 
     <!-- 📈 ANALYTICS PAGE -->
     <div id="analytics-page" class="page">
-      <div class="industrial-glass p-8">
-        <h3 class="text-2xl font-bold text-white mb-8">SYSTEM ANALYTICS</h3>
+      <div class="industrial-glass p-4 md:p-6">
+        <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM ANALYTICS</h3>
         
         <!-- Analytics Overview -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
           <!-- Usage Statistics -->
           <div class="analytics-chart">
-            <h4 class="text-lg font-semibold mb-4">📊 USAGE STATISTICS</h4>
+            <h4 class="text-base md:text-lg font-semibold mb-4">📊 USAGE STATISTICS</h4>
             <div class="space-y-4">
               <div>
-                <div class="flex justify-between mb-1">
+                <div class="flex justify-between mb-1 text-sm md:text-base">
                   <span>Daily Transactions</span>
                   <span id="dailyTransactions">0</span>
                 </div>
@@ -920,7 +1383,7 @@
                 </div>
               </div>
               <div>
-                <div class="flex justify-between mb-1">
+                <div class="flex justify-between mb-1 text-sm md:text-base">
                   <span>Monthly Activity</span>
                   <span id="monthlyActivity">0</span>
                 </div>
@@ -929,7 +1392,7 @@
                 </div>
               </div>
               <div>
-                <div class="flex justify-between mb-1">
+                <div class="flex justify-between mb-1 text-sm md:text-base">
                   <span>System Uptime</span>
                   <span id="systemUptime">99.8%</span>
                 </div>
@@ -942,10 +1405,10 @@
 
           <!-- Popular Items -->
           <div class="analytics-chart">
-            <h4 class="text-lg font-semibold mb-4">🔥 POPULAR ASSETS</h4>
+            <h4 class="text-base md:text-lg font-semibold mb-4">🔥 POPULAR ASSETS</h4>
             <div id="popularBooks" class="space-y-3">
               <div class="text-center text-gray-400 py-4">
-                <i class="fas fa-chart-bar text-2xl mb-2 block"></i>
+                <i class="fas fa-chart-bar text-xl mb-2 block"></i>
                 Loading popular items...
               </div>
             </div>
@@ -954,9 +1417,9 @@
 
         <!-- Activity Timeline -->
         <div class="analytics-chart">
-          <h4 class="text-lg font-semibold mb-4">🕒 RECENT ACTIVITY TIMELINE</h4>
-          <div id="activityTimeline" class="space-y-4">
-            <div class="text-center text-gray-400 py-8">
+          <h4 class="text-base md:text-lg font-semibold mb-4">🕒 RECENT ACTIVITY TIMELINE</h4>
+          <div id="activityTimeline" class="space-y-3">
+            <div class="text-center text-gray-400 py-4">
               <div class="loading-spinner-industrial mx-auto mb-4"></div>
               Loading activity timeline...
             </div>
@@ -967,17 +1430,17 @@
 
     <!-- ⚙️ SYSTEM SETTINGS PAGE -->
     <div id="settings-page" class="page">
-      <div class="industrial-glass p-8">
-        <h3 class="text-2xl font-bold text-white mb-8">SYSTEM SETTINGS</h3>
+      <div class="industrial-glass p-4 md:p-6">
+        <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM SETTINGS</h3>
         
         <!-- General Settings -->
         <div class="settings-panel">
-          <h4 class="text-lg font-semibold mb-4">🔧 GENERAL SETTINGS</h4>
+          <h4 class="text-base md:text-lg font-semibold mb-4">🔧 GENERAL SETTINGS</h4>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <div>
-                <div class="font-medium">System Notifications</div>
-                <div class="text-sm text-gray-400">Receive alerts for system events</div>
+                <div class="font-medium text-sm md:text-base">System Notifications</div>
+                <div class="text-xs md:text-sm text-gray-400">Receive alerts for system events</div>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="sr-only peer" checked>
@@ -987,8 +1450,8 @@
             
             <div class="flex items-center justify-between">
               <div>
-                <div class="font-medium">Auto-refresh Data</div>
-                <div class="text-sm text-gray-400">Automatically refresh dashboard data</div>
+                <div class="font-medium text-sm md:text-base">Auto-refresh Data</div>
+                <div class="text-xs md:text-sm text-gray-400">Automatically refresh dashboard data</div>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="sr-only peer" checked>
@@ -1000,10 +1463,10 @@
 
         <!-- Security Settings -->
         <div class="settings-panel">
-          <h4 class="text-lg font-semibold mb-4">🔐 SECURITY SETTINGS</h4>
+          <h4 class="text-base md:text-lg font-semibold mb-4">🔐 SECURITY SETTINGS</h4>
           <div class="space-y-4">
             <div>
-              <label class="block text-gray-300 mb-2">Session Timeout</label>
+              <label class="block text-gray-300 mb-2 text-sm md:text-base">Session Timeout</label>
               <select class="input-industrial">
                 <option>15 minutes</option>
                 <option selected>30 minutes</option>
@@ -1012,7 +1475,7 @@
               </select>
             </div>
             <div>
-              <label class="block text-gray-300 mb-2">Password Requirements</label>
+              <label class="block text-gray-300 mb-2 text-sm md:text-base">Password Requirements</label>
               <select class="input-industrial">
                 <option>Basic (6 characters)</option>
                 <option selected>Standard (8 characters with numbers)</option>
@@ -1024,38 +1487,38 @@
 
         <!-- System Information -->
         <div class="settings-panel">
-          <h4 class="text-lg font-semibold mb-4">💻 SYSTEM INFORMATION</h4>
+          <h4 class="text-base md:text-lg font-semibold mb-4">💻 SYSTEM INFORMATION</h4>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <div class="text-sm text-gray-400">System Version</div>
-              <div class="font-medium">Industrial Dashboard v2.0.1</div>
+              <div class="text-xs md:text-sm text-gray-400">System Version</div>
+              <div class="font-medium text-sm md:text-base">Industrial Dashboard v2.0.1</div>
             </div>
             <div>
-              <div class="text-sm text-gray-400">Last Updated</div>
-              <div class="font-medium" id="lastUpdated">Loading...</div>
+              <div class="text-xs md:text-sm text-gray-400">Last Updated</div>
+              <div class="font-medium text-sm md:text-base" id="lastUpdated">Loading...</div>
             </div>
             <div>
-              <div class="text-sm text-gray-400">Database Status</div>
-              <div class="font-medium text-green-400">Connected</div>
+              <div class="text-xs md:text-sm text-gray-400">Database Status</div>
+              <div class="font-medium text-green-400 text-sm md:text-base">Connected</div>
             </div>
             <div>
-              <div class="text-sm text-gray-400">Active Sessions</div>
-              <div class="font-medium" id="activeSessions">1</div>
+              <div class="text-xs md:text-sm text-gray-400">Active Sessions</div>
+              <div class="font-medium text-sm md:text-base" id="activeSessions">1</div>
             </div>
           </div>
         </div>
 
         <!-- Danger Zone -->
         <div class="settings-panel border-2 border-red-500/30">
-          <h4 class="text-lg font-semibold mb-4 text-red-400">⚠️ DANGER ZONE</h4>
+          <h4 class="text-base md:text-lg font-semibold mb-4 text-red-400">⚠️ DANGER ZONE</h4>
           <div class="space-y-3">
-            <button onclick="clearAllData()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+            <button onclick="clearAllData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
               <i class="fas fa-trash mr-2"></i>CLEAR ALL SYSTEM DATA
             </button>
-            <button onclick="resetSystem()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-orange),#ea580c);">
+            <button onclick="resetSystem()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#ea580c);">
               <i class="fas fa-rotate mr-2"></i>FACTORY RESET
             </button>
-            <button onclick="exportBackup()" class="btn-industrial w-full text-left" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+            <button onclick="exportBackup()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
               <i class="fas fa-download mr-2"></i>CREATE BACKUP
             </button>
           </div>
@@ -1067,8 +1530,8 @@
   <!-- ➕ ADD BOOK MODAL -->
   <div id="addBookModal" class="modal-industrial">
     <div class="modal-content-industrial">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-2xl font-bold text-white">➕ ADD NEW ASSET</h3>
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg md:text-2xl font-bold text-white">➕ ADD NEW ASSET</h3>
         <button onclick="hideAddBookModal()" class="text-gray-400 hover:text-white text-xl">
           <i class="fas fa-times"></i>
         </button>
@@ -1077,27 +1540,27 @@
       <form onsubmit="addBook(event)">
         <div class="space-y-4">
           <div>
-            <label class="block text-gray-300 mb-2">ASSET ID *</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">ASSET ID *</label>
             <input type="text" id="newBookId" required class="input-industrial" placeholder="Enter unique asset ID">
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">TITLE *</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">TITLE *</label>
             <input type="text" id="newBookTitle" required class="input-industrial" placeholder="Enter asset title">
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">AUTHOR</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">AUTHOR</label>
             <input type="text" id="newBookAuthor" class="input-industrial" placeholder="Enter author/manufacturer">
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">LOCATION</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">LOCATION</label>
             <input type="text" id="newBookLocation" class="input-industrial" placeholder="Enter storage location">
           </div>
         </div>
-        <div class="flex gap-3 mt-8">
-          <button type="button" onclick="hideAddBookModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600">
+        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+          <button type="button" onclick="hideAddBookModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600 text-sm md:text-base">
             CANCEL
           </button>
-          <button type="submit" class="flex-1 btn-industrial">
+          <button type="submit" class="flex-1 btn-industrial text-sm md:text-base">
             <i class="fas fa-plus-circle mr-2"></i>ADD ASSET
           </button>
         </div>
@@ -1108,8 +1571,8 @@
   <!-- 👤 ADD USER MODAL -->
   <div id="addUserModal" class="modal-industrial">
     <div class="modal-content-industrial">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-2xl font-bold text-white">👤 ADD NEW USER</h3>
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg md:text-2xl font-bold text-white">👤 ADD NEW USER</h3>
         <button onclick="hideAddUserModal()" class="text-gray-400 hover:text-white text-xl">
           <i class="fas fa-times"></i>
         </button>
@@ -1118,15 +1581,15 @@
       <form onsubmit="addUser(event)">
         <div class="space-y-4">
           <div>
-            <label class="block text-gray-300 mb-2">FULL NAME *</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">FULL NAME *</label>
             <input type="text" id="newUserName" required class="input-industrial" placeholder="Enter user's full name">
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">EMAIL *</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">EMAIL *</label>
             <input type="email" id="newUserEmail" required class="input-industrial" placeholder="Enter user's email">
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">ROLE *</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">ROLE *</label>
             <select id="newUserRole" class="input-industrial">
               <option value="Student">Student</option>
               <option value="Staff">Staff</option>
@@ -1134,15 +1597,15 @@
             </select>
           </div>
           <div>
-            <label class="block text-gray-300 mb-2">DEPARTMENT</label>
+            <label class="block text-gray-300 mb-2 text-sm md:text-base">DEPARTMENT</label>
             <input type="text" id="newUserDepartment" class="input-industrial" placeholder="Enter department">
           </div>
         </div>
-        <div class="flex gap-3 mt-8">
-          <button type="button" onclick="hideAddUserModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600">
+        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+          <button type="button" onclick="hideAddUserModal()" class="flex-1 p-4 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors border border-gray-600 text-sm md:text-base">
             CANCEL
           </button>
-          <button type="submit" class="flex-1 btn-industrial">
+          <button type="submit" class="flex-1 btn-industrial text-sm md:text-base">
             <i class="fas fa-user-plus mr-2"></i>ADD USER
           </button>
         </div>
@@ -1151,6 +1614,184 @@
   </div>
 
   <script>
+    // ==================== MOBILE MENU FUNCTIONS ====================
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const body = document.body;
+      
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      
+      // Prevent body scroll when sidebar is open
+      if (sidebar.classList.contains('active')) {
+        body.classList.add('sidebar-open');
+        body.style.overflow = 'hidden';
+      } else {
+        body.classList.remove('sidebar-open');
+        body.style.overflow = '';
+      }
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (event) => {
+      const sidebar = document.getElementById('sidebar');
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const overlay = document.getElementById('sidebarOverlay');
+      
+      if (window.innerWidth <= 1024 && 
+          sidebar.classList.contains('active') && 
+          !sidebar.contains(event.target) && 
+          !mobileBtn.contains(event.target) &&
+          overlay.contains(event.target)) {
+        toggleSidebar();
+      }
+    });
+
+    // Handle back button on mobile to close sidebar
+    window.addEventListener('popstate', function() {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar.classList.contains('active')) {
+        toggleSidebar();
+      }
+    });
+
+    // Close sidebar on page change for mobile
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      document.querySelectorAll('.nav-item').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected page and activate tab
+      document.getElementById(pageId).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      // Close sidebar on mobile
+      if (window.innerWidth <= 1024) {
+        toggleSidebar();
+      }
+
+      // Load page-specific data
+      if (pageId === 'users-page') {
+        loadUsers();
+        updateUserStats();
+      } else if (pageId === 'analytics-page') {
+        updateAnalytics();
+      } else if (pageId === 'settings-page') {
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+      }
+    }
+
+    // Handle window resize for better mobile experience
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
+        if (window.innerWidth > 1024) {
+          // On desktop, ensure sidebar is visible and body scroll is enabled
+          const sidebar = document.getElementById('sidebar');
+          const overlay = document.getElementById('sidebarOverlay');
+          const body = document.body;
+          
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+          body.classList.remove('sidebar-open');
+          body.style.overflow = '';
+        }
+      }, 250);
+    });
+
+    // Add touch gesture support for sidebar swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    document.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const sidebar = document.getElementById('sidebar');
+      
+      if (touchEndX < touchStartX - swipeThreshold && window.innerWidth <= 1024) {
+        // Swipe left - close sidebar
+        if (sidebar.classList.contains('active')) {
+          toggleSidebar();
+        }
+      }
+      
+      if (touchEndX > touchStartX + swipeThreshold && window.innerWidth <= 1024) {
+        // Swipe right - open sidebar
+        if (!sidebar.classList.contains('active')) {
+          toggleSidebar();
+        }
+      }
+    }
+
+    // 🔥 FIX: Improved modal handling for mobile
+    function showAddBookModal() {
+      document.getElementById('addBookModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideAddBookModal() {
+      document.getElementById('addBookModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function showAddUserModal() {
+      document.getElementById('addUserModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideAddUserModal() {
+      document.getElementById('addUserModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal when clicking outside
+    document.querySelectorAll('.modal-industrial').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // 🔥 FIX: Prevent zoom on input focus in iOS
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.type === 'text' || e.target.type === 'number' || e.target.type === 'email' || e.target.type === 'tel' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+        // Do nothing - allow normal behavior
+      }
+    }, { passive: true });
+
+    // 🔥 FIX: Improved touch handling for buttons
+    document.addEventListener('touchstart', function() {
+      // Add active state to buttons
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+      // Remove active state
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        e.target.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          e.target.style.transform = '';
+        }, 150);
+      }
+    }, { passive: true });
+
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAuN-gyzwFj7FeLUMfsFyo5FmWnzjHnyMM",
@@ -1174,15 +1815,14 @@
     // ==================== CRITICAL FIX: STATUS NORMALIZATION ====================
     // ESP/Mega sends: "AVL", "BRW" 
     // Dashboard expects: "Available", "Borrowed"
-// ==================== IMPROVED: normalizeStatus ====================
-  
+
     function normalizeStatus(status) {
       if (!status || typeof status !== 'string') return "Available";
       
       // Clean the status string
       const cleanStatus = status.trim();
       
-      // ESP/Mega format to Dashboard format mapping
+      // ESP/Mega short formats to Dashboard format mapping
       const statusMap = {
         // ESP/Mega short formats
         'AVL': 'Available',
@@ -1300,7 +1940,7 @@
       notification.innerHTML = `
         <div class="flex items-center gap-3">
           <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
-          <span class="font-semibold">${message}</span>
+          <span class="font-semibold text-sm">${message}</span>
         </div>
       `;
       
@@ -1436,8 +2076,8 @@
       if (filteredBooks.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" class="p-8 text-center text-gray-400">
-              <i class="fas fa-search-location text-4xl mb-4 block"></i>
+            <td colspan="9" class="p-6 text-center text-gray-400">
+              <i class="fas fa-search-location text-2xl mb-4 block"></i>
               No assets found matching search criteria
             </td>
           </tr>
@@ -1453,46 +2093,46 @@
 
         return `
         <tr class="book-card-industrial">
-          <td class="p-4">
-            <span class="font-mono text-sm bg-gray-800 px-3 py-2 rounded-lg border border-gray-700">${book.uid}</span>
+          <td class="p-3">
+            <span class="font-mono text-xs bg-gray-800 px-2 py-1 rounded-lg border border-gray-700">${book.uid}</span>
           </td>
-          <td class="p-4 font-semibold">
+          <td class="p-3 font-semibold">
             <input type="text" value="${book.title || 'New Book'}" 
                    onchange="updateBookField('${book.uid}', 'title', this.value)"
-                   class="input-industrial text-sm bg-transparent border-none">
+                   class="input-industrial text-xs bg-transparent border-none p-2">
           </td>
-          <td class="p-4">
+          <td class="p-3">
             <input type="text" value="${book.author || 'Unknown'}" 
                    onchange="updateBookField('${book.uid}', 'author', this.value)"
-                   class="input-industrial text-sm bg-transparent border-none">
+                   class="input-industrial text-xs bg-transparent border-none p-2">
           </td>
-          <td class="p-4">
+          <td class="p-3">
             <input type="text" value="${book.location || 'Unassigned'}" 
                    onchange="updateBookField('${book.uid}', 'location', this.value)"
-                   class="input-industrial text-sm bg-transparent border-none">
+                   class="input-industrial text-xs bg-transparent border-none p-2">
           </td>
-          <td class="p-4">
+          <td class="p-3">
             <select onchange="updateBookStatus('${book.uid}', this.value)" 
-                    class="status-pill-industrial status-${normalizedStatus.toLowerCase()}">
+                    class="status-pill-industrial status-${normalizedStatus.toLowerCase()} text-xs">
               <option value="Available" ${normalizedStatus === 'Available' ? 'selected' : ''}>AVAILABLE</option>
               <option value="Borrowed" ${normalizedStatus === 'Borrowed' ? 'selected' : ''}>IN USE</option>
               <option value="Overdue" ${normalizedStatus === 'Overdue' ? 'selected' : ''}>OVERDUE</option>
               <option value="Misplaced" ${normalizedStatus === 'Misplaced' ? 'selected' : ''}>FLAGGED</option>
             </select>
           </td>
-          <td class="p-4">
+          <td class="p-3">
             <input type="text" value="${book.student || ''}" 
                    onchange="updateStudent('${book.uid}', this.value)"
-                   class="input-industrial text-sm bg-transparent border-none text-center" 
+                   class="input-industrial text-xs bg-transparent border-none p-2 text-center" 
                    placeholder="Assign user">
           </td>
-          <td class="p-4 text-sm text-gray-400" title="${lastSeenFull}">
+          <td class="p-3 text-xs text-gray-400" title="${lastSeenFull}">
             ${lastSeenDisplay}
           </td>
-          <td class="p-4">
+          <td class="p-3">
             ${isRegistered ? 
-              '<span class="text-green-400 font-bold"><i class="fas fa-check-circle"></i> YES</span>' : 
-              '<span class="text-red-400 font-bold"><i class="fas fa-times-circle"></i> NO</span>'
+              '<span class="text-green-400 font-bold text-xs"><i class="fas fa-check-circle"></i> YES</span>' : 
+              '<span class="text-red-400 font-bold text-xs"><i class="fas fa-times-circle"></i> NO</span>'
             }
             ${!isRegistered ? 
               `<button onclick="forceRegisterBook('${book.uid}')" class="ml-2 text-xs bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">
@@ -1501,8 +2141,8 @@
               ''
             }
           </td>
-          <td class="p-4">
-            <div class="flex gap-2">
+          <td class="p-3">
+            <div class="flex gap-1">
               <button onclick="markMisplaced('${book.uid}')" class="action-btn btn-flag" title="Flag as Misplaced">
                 <i class="fas fa-flag"></i>
               </button>
@@ -1537,8 +2177,8 @@
       if (filteredUsers.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="7" class="p-8 text-center text-gray-400">
-              <i class="fas fa-user-slash text-4xl mb-4 block"></i>
+            <td colspan="7" class="p-6 text-center text-gray-400">
+              <i class="fas fa-user-slash text-2xl mb-4 block"></i>
               No users found matching search criteria
             </td>
           </tr>
@@ -1552,26 +2192,26 @@
         
         return `
         <tr class="book-card-industrial">
-          <td class="p-4">
-            <span class="font-mono text-sm bg-gray-800 px-3 py-2 rounded-lg border border-gray-700">${user.id}</span>
+          <td class="p-3">
+            <span class="font-mono text-xs bg-gray-800 px-2 py-1 rounded-lg border border-gray-700">${user.id}</span>
           </td>
-          <td class="p-4 font-semibold">${user.name}</td>
-          <td class="p-4">${user.email}</td>
-          <td class="p-4">
-            <span class="status-pill-industrial ${user.role === 'Admin' ? 'status-overdue' : user.role === 'Staff' ? 'status-borrowed' : 'status-available'}">
+          <td class="p-3 font-semibold text-sm">${user.name}</td>
+          <td class="p-3 text-sm">${user.email}</td>
+          <td class="p-3">
+            <span class="status-pill-industrial ${user.role === 'Admin' ? 'status-overdue' : user.role === 'Staff' ? 'status-borrowed' : 'status-available'} text-xs">
               ${user.role}
             </span>
           </td>
-          <td class="p-4 text-center">
-            <span class="font-bold ${borrowedCount > 0 ? 'text-yellow-400' : 'text-gray-400'}">
+          <td class="p-3 text-center">
+            <span class="font-bold ${borrowedCount > 0 ? 'text-yellow-400' : 'text-gray-400'} text-sm">
               ${borrowedCount}
             </span>
           </td>
-          <td class="p-4 text-sm text-gray-400">
+          <td class="p-3 text-xs text-gray-400">
             ${lastActiveDisplay}
           </td>
-          <td class="p-4">
-            <div class="flex gap-2">
+          <td class="p-3">
+            <div class="flex gap-1">
               <button onclick="editUser('${user.id}')" class="action-btn btn-edit" title="Edit">
                 <i class="fas fa-edit"></i>
               </button>
@@ -1612,7 +2252,7 @@
       popularContainer.innerHTML = popularBooks.map(book => `
         <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
           <div class="flex-1 truncate">
-            <div class="font-medium truncate">${book.title}</div>
+            <div class="font-medium truncate text-sm">${book.title}</div>
             <div class="text-xs text-gray-400 truncate">${book.author}</div>
           </div>
           <div class="text-yellow-400 font-bold ml-2">
@@ -1639,11 +2279,11 @@
         const normalizedStatus = normalizeStatus(book.status);
 
         return `
-        <div class="flex items-center gap-4 p-3 bg-gray-800/30 rounded-lg border-l-4 ${normalizedStatus === 'Available' ? 'border-green-500' : normalizedStatus === 'Borrowed' ? 'border-yellow-500' : normalizedStatus === 'Overdue' ? 'border-red-500' : 'border-purple-500'}">
+        <div class="flex items-center gap-3 p-3 bg-gray-800/30 rounded-lg border-l-4 ${normalizedStatus === 'Available' ? 'border-green-500' : normalizedStatus === 'Borrowed' ? 'border-yellow-500' : normalizedStatus === 'Overdue' ? 'border-red-500' : 'border-purple-500'}">
             <div class="w-3 h-3 ${normalizedStatus === 'Available' ? 'bg-green-500' : normalizedStatus === 'Borrowed' ? 'bg-yellow-500' : normalizedStatus === 'Overdue' ? 'bg-red-500' : 'bg-purple-500'} rounded-full"></div>
             <div class="flex-1">
-                <div class="font-medium">${book.title}</div>
-                <div class="text-sm text-gray-400">Status: ${normalizedStatus} • ${book.student ? `User: ${book.student}` : 'No user assigned'}</div>
+                <div class="font-medium text-sm">${book.title}</div>
+                <div class="text-xs text-gray-400">Status: ${normalizedStatus} • ${book.student ? `User: ${book.student}` : 'No user assigned'}</div>
             </div>
             <div class="text-right">
                 <div class="text-sm font-medium">${timeDisplay}</div>
@@ -1652,51 +2292,6 @@
         </div>
         `;
       }).join('');
-    }
-
-    // 🏷️ PAGE NAVIGATION
-    function showPage(pageId) {
-      // Hide all pages
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-      });
-      
-      // Remove active class from all tabs
-      document.querySelectorAll('.nav-item').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      
-      // Show selected page and activate tab
-      document.getElementById(pageId).classList.add('active');
-      event.currentTarget.classList.add('active');
-
-      // Load page-specific data
-      if (pageId === 'users-page') {
-        loadUsers();
-        updateUserStats();
-      } else if (pageId === 'analytics-page') {
-        updateAnalytics();
-      } else if (pageId === 'settings-page') {
-        document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
-      }
-    }
-
-    // ➕ ADD BOOK MODAL
-    function showAddBookModal() {
-      document.getElementById('addBookModal').classList.add('active');
-    }
-
-    function hideAddBookModal() {
-      document.getElementById('addBookModal').classList.remove('active');
-    }
-
-    // 👤 ADD USER MODAL
-    function showAddUserModal() {
-      document.getElementById('addUserModal').classList.add('active');
-    }
-
-    function hideAddUserModal() {
-      document.getElementById('addUserModal').classList.remove('active');
     }
 
     // ==================== FIXED: addBook - WITH ESP FORMAT SUPPORT ====================
@@ -2065,7 +2660,7 @@
       }
     }
 
-        // ==================== ADDED: Smart Registration Detection ====================
+    // ==================== ADDED: Smart Registration Detection ====================
     function shouldAutoRegisterBook(bookData) {
       if (!bookData) return false;
       
@@ -2248,8 +2843,8 @@
           console.log("No books found in Firebase");
           document.getElementById('booksTable').innerHTML = `
             <tr>
-              <td colspan="9" class="p-8 text-center text-gray-400">
-                <i class="fas fa-books text-4xl mb-4 block"></i>
+              <td colspan="9" class="p-6 text-center text-gray-400">
+                <i class="fas fa-books text-2xl mb-4 block"></i>
                 No assets in system. Add your first asset!
               </td>
             </tr>
@@ -2282,8 +2877,8 @@
         } else {
           document.getElementById('usersTable').innerHTML = `
             <tr>
-              <td colspan="7" class="p-8 text-center text-gray-400">
-                <i class="fas fa-user-plus text-4xl mb-4 block"></i>
+              <td colspan="7" class="p-6 text-center text-gray-400">
+                <i class="fas fa-user-plus text-2xl mb-4 block"></i>
                 No users in system. Add your first user!
               </td>
             </tr>
@@ -2357,7 +2952,7 @@
       const container = document.getElementById('recentBooks');
       
       if (recentBooks.length === 0) {
-        container.innerHTML = '<div class="text-gray-400 text-center py-8"><i class="fas fa-history text-2xl mb-2 block"></i>No recent activity</div>';
+        container.innerHTML = '<div class="text-gray-400 text-center py-6"><i class="fas fa-history text-xl mb-2 block"></i>No recent activity</div>';
         return;
       }
 
@@ -2367,13 +2962,13 @@
 
         return `
         <div class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-lg transition-colors">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                    <i class="fas fa-book text-white text-sm"></i>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <i class="fas fa-book text-white text-xs"></i>
                 </div>
                 <div>
-                    <div class="font-semibold">${book.title}</div>
-                    <div class="text-sm text-gray-400">${book.author} • ${book.location}</div>
+                    <div class="font-semibold text-sm">${book.title}</div>
+                    <div class="text-xs text-gray-400">${book.author} • ${book.location}</div>
                     <div class="text-xs text-blue-400 mt-1">${timeDisplay}</div>
                 </div>
             </div>
@@ -2546,7 +3141,7 @@
       const settingsPage = document.getElementById('settings-page');
       if (settingsPage) {
         const cleanupBtn = document.createElement('button');
-        cleanupBtn.className = 'btn-industrial w-full text-left mt-4';
+        cleanupBtn.className = 'btn-industrial text-left mt-4';
         cleanupBtn.style.background = 'linear-gradient(135deg,var(--neon-orange),#ea580c)';
         cleanupBtn.innerHTML = '<i class="fas fa-broom mr-2"></i>CLEANUP CORRUPTED DATA';
         cleanupBtn.onclick = cleanupCorruptedBooks;
@@ -2561,7 +3156,33 @@
       document.getElementById('bookStatusFilter').addEventListener('change', updateBooksTable);
       document.getElementById('userSearch').addEventListener('input', updateUsersTable);
       
+      // Mobile menu button event listener
+      document.getElementById('mobileMenuBtn').addEventListener('click', toggleSidebar);
+      
+      // Handle orientation change
+      window.addEventListener('orientationchange', function() {
+        // Force a resize event to trigger responsive adjustments
+        setTimeout(function() {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
+      });
+      
       initializeApp();
+    });
+
+    // Handle window resize for better mobile experience
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 1024) {
+        // On desktop, ensure sidebar is visible
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const body = document.body;
+        
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        body.classList.remove('sidebar-open');
+        body.style.overflow = '';
+      }
     });
   </script>
 </body>
