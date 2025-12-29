@@ -87,16 +87,16 @@
       top: 15px;
       right: 15px;
       z-index: 1000;
-      padding: 10px 15px;
-      border-radius: 25px;
+      padding: 8px 12px;
+      border-radius: 20px;
       font-weight: 700;
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 2px solid;
     }
@@ -116,13 +116,13 @@
     }
 
     @keyframes pulse-online {
-      0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
-      50% { box-shadow: 0 0 30px rgba(16, 185, 129, 1); }
+      0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
+      50% { box-shadow: 0 0 25px rgba(16, 185, 129, 1); }
     }
 
     @keyframes pulse-offline {
-      0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); }
-      50% { box-shadow: 0 0 30px rgba(239, 68, 68, 1); }
+      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+      50% { box-shadow: 0 0 25px rgba(239, 68, 68, 1); }
     }
 
     /* 🎠 SIDEBAR - FIXED FOR MOBILE */
@@ -258,7 +258,7 @@
     .btn-industrial {
       background: linear-gradient(135deg, var(--industrial-blue), var(--accent-2));
       color: white;
-      padding: 16px 24px;
+      padding: 14px 20px;
       border-radius: 12px;
       font-weight: 700;
       border: none;
@@ -301,18 +301,18 @@
 
     /* 🔥 STATUS PILLS - INDUSTRIAL */
     .status-pill-industrial {
-      padding: 12px 18px;
+      padding: 10px 16px;
       border-radius: 20px;
       font-weight: 700;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       transition: all 0.3s ease;
       border: 2px solid;
-      box-shadow: 0 0 20px currentColor;
+      box-shadow: 0 0 15px currentColor;
       cursor: pointer;
       background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-      min-height: 44px;
+      min-height: 40px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -345,13 +345,13 @@
     }
 
     @keyframes pulse-alert {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ef4444; }
-      50% { transform: scale(1.05); box-shadow: 0 0 30px #ef4444; }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 15px #ef4444; }
+      50% { transform: scale(1.03); box-shadow: 0 0 25px #ef4444; }
     }
 
     @keyframes pulse-misplaced {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--neon-purple); }
-      50% { transform: scale(1.03); box-shadow: 0 0 25px var(--neon-purple); }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 15px var(--neon-purple); }
+      50% { transform: scale(1.02); box-shadow: 0 0 20px var(--neon-purple); }
     }
 
     /* 🎪 MODAL - INDUSTRIAL */
@@ -423,17 +423,25 @@
 
     .input-industrial:focus {
       border-color: var(--industrial-blue);
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
       transform: scale(1.02);
       background: rgba(15, 23, 42, 0.9);
     }
 
-    /* 🏷️ MAIN CONTENT */
+    /* 🏷️ MAIN CONTENT - FIXED WIDTH ISSUE */
     .main-content {
       margin-left: 0;
       padding: 80px 15px 20px;
       min-height: 100vh;
       width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .content-container {
+      max-width: 100%;
+      width: 100%;
+      margin: 0 auto;
       overflow-x: hidden;
     }
 
@@ -442,9 +450,10 @@
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.1);
-      padding: 20px;
+      padding: 15px;
       border-radius: 16px;
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      max-width: 100%;
     }
 
     .stat-card-industrial::after {
@@ -471,6 +480,7 @@
       border-left: 4px solid transparent;
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(15, 23, 42, 0.5);
+      max-width: 100%;
     }
 
     .book-card-industrial:hover {
@@ -501,7 +511,7 @@
       top: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(-100px);
-      padding: 18px 24px;
+      padding: 16px 20px;
       border-radius: 12px;
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
       border-left: 4px solid;
@@ -544,7 +554,7 @@
       color: white;
       margin: 0 auto 15px;
       border: 3px solid rgba(255,255,255,0.2);
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
     }
 
     /* 🏭 INDUSTRIAL BADGES */
@@ -582,12 +592,12 @@
       font-size: 1.8rem;
       color: white;
       border: 3px solid rgba(255,255,255,0.2);
-      box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
+      box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
     }
 
     /* 🎯 ACTION BUTTONS */
     .action-btn {
-      padding: 12px;
+      padding: 10px;
       border-radius: 10px;
       border: 2px solid;
       background: transparent;
@@ -595,8 +605,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 0.8rem;
-      min-width: 44px;
-      min-height: 44px;
+      min-width: 40px;
+      min-height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -617,6 +627,7 @@
       padding: 20px;
       border: 1px solid rgba(255,255,255,0.1);
       margin-bottom: 15px;
+      max-width: 100%;
     }
 
     /* 🎛️ SETTINGS PANELS */
@@ -626,13 +637,16 @@
       padding: 20px;
       border: 1px solid rgba(255,255,255,0.1);
       margin-bottom: 15px;
+      max-width: 100%;
     }
 
     /* 🎨 PAGE TRANSITIONS */
     .page {
       display: none;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.3s ease-in-out;
       width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     .page.active {
@@ -640,7 +654,7 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -692,6 +706,34 @@
       opacity: 1;
     }
 
+    /* 🔥 FIX: LEFT SIDE CONTAINER - PREVENT OVERFLOW */
+    .dashboard-left-section {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .control-panel-container {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    /* 🔥 FIX: TABLE CONTAINER */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      margin: 0 -12px;
+      padding: 0 12px;
+    }
+    
+    .table-container table {
+      min-width: 1000px;
+      width: 100%;
+    }
+
     /* ========== ENHANCED MOBILE RESPONSIVE STYLES ========== */
     /* 📱 MOBILE (SMALL SCREENS) */
     @media (max-width: 767px) {
@@ -711,9 +753,9 @@
       }
       
       /* 🔥 FIX: Dashboard header */
-      .main-content .industrial-glass.p-8.mb-8 {
-        padding: 20px !important;
-        margin-bottom: 15px;
+      .main-content .industrial-glass.p-6.mb-6 {
+        padding: 15px !important;
+        margin-bottom: 12px;
         width: 100%;
         max-width: 100%;
       }
@@ -721,31 +763,31 @@
       /* 🔥 FIX: Stats grid - 2 columns */
       .grid.grid-cols-2.md\\:grid-cols-4 {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px;
-        margin-bottom: 20px;
+        gap: 10px;
+        margin-bottom: 15px;
       }
       
       /* 🔥 FIX: Stat cards */
       .stat-card-industrial {
-        padding: 15px !important;
-        min-height: 120px;
+        padding: 12px !important;
+        min-height: 110px;
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
       
       .stat-card-industrial .text-3xl {
-        font-size: 1.8rem !important;
+        font-size: 1.6rem !important;
         line-height: 1.2;
       }
       
       /* 🔥 FIX: Table container for horizontal scrolling */
-      .overflow-x-auto {
+      .table-container {
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
         width: 100%;
-        margin: 0 -12px;
-        padding: 0 12px;
+        margin: 0 -8px;
+        padding: 0 8px;
       }
       
       /* 🔥 FIX: Table width for mobile */
@@ -756,28 +798,28 @@
       
       /* 🔥 FIX: Table cells */
       th, td {
-        padding: 12px 8px !important;
-        font-size: 0.85rem;
-        min-width: 100px;
+        padding: 10px 6px !important;
+        font-size: 0.8rem;
+        min-width: 90px;
       }
       
       /* 🔥 FIX: Input fields for mobile */
       input, select, textarea, .input-industrial {
         font-size: 16px !important; /* Prevents iOS zoom */
-        min-height: 56px;
-        padding: 14px !important;
+        min-height: 50px;
+        padding: 12px !important;
       }
       
-      /* 🔥 FIX: Buttons for mobile */
+      /* 🔥 FIX: Buttons for mobile - reduced size */
       .btn-industrial {
-        padding: 16px 20px !important;
-        font-size: 0.9rem;
-        min-height: 56px;
+        padding: 14px 16px !important;
+        font-size: 0.8rem;
+        min-height: 50px;
       }
       
       /* 🔥 FIX: Modal for mobile */
       .modal-content-industrial {
-        padding: 20px;
+        padding: 15px;
         margin: 0;
         width: 100%;
         max-width: 100%;
@@ -793,51 +835,52 @@
       
       /* 🔥 FIX: Navigation items touch size */
       .nav-item {
-        padding: 18px 15px;
-        margin: 3px 10px;
-        font-size: 0.95rem;
-        min-height: 56px;
+        padding: 16px 12px;
+        margin: 3px 8px;
+        font-size: 0.9rem;
+        min-height: 52px;
       }
       
       /* 🔥 FIX: Action buttons spacing */
       .action-btn {
         margin: 2px;
-        min-width: 44px;
-        min-height: 44px;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px;
       }
       
       /* 🔥 FIX: Circular progress */
       .circular-progress-industrial {
-        width: 160px;
-        height: 160px;
-        margin: 20px auto;
+        width: 140px;
+        height: 140px;
+        margin: 15px auto;
       }
       
       /* 🔥 FIX: Typography for mobile */
       h1 { 
-        font-size: 1.6rem !important; 
+        font-size: 1.5rem !important; 
         line-height: 1.3;
         word-break: break-word;
       }
-      h2 { font-size: 1.4rem !important; }
-      h3 { font-size: 1.2rem !important; }
-      h4 { font-size: 1.1rem !important; }
-      .text-4xl { font-size: 2rem !important; }
-      .text-3xl { font-size: 1.8rem !important; }
-      .text-2xl { font-size: 1.5rem !important; }
-      .text-xl { font-size: 1.2rem !important; }
-      p { font-size: 0.95rem; line-height: 1.5; }
+      h2 { font-size: 1.3rem !important; }
+      h3 { font-size: 1.1rem !important; }
+      h4 { font-size: 1rem !important; }
+      .text-4xl { font-size: 1.8rem !important; }
+      .text-3xl { font-size: 1.6rem !important; }
+      .text-2xl { font-size: 1.4rem !important; }
+      .text-xl { font-size: 1.1rem !important; }
+      p { font-size: 0.9rem; line-height: 1.5; }
       
       /* 🔥 FIX: Grid layouts */
       .grid.grid-cols-1.lg\\:grid-cols-2 {
         grid-template-columns: 1fr !important;
-        gap: 15px;
+        gap: 12px;
       }
       
       /* 🔥 FIX: Flex containers */
       .flex.flex-col.md\\:flex-row {
         flex-direction: column !important;
-        gap: 12px;
+        gap: 10px;
       }
       
       /* 🔥 FIX: Search and filter inputs */
@@ -846,44 +889,70 @@
         min-width: 100% !important;
       }
       
-      /* 🔥 FIX: Connection indicator position */
+      /* 🔥 FIX: Connection indicator position and size */
       .connection-indicator {
         top: 15px;
         right: 15px;
-        padding: 10px 12px;
-        font-size: 0.65rem;
+        padding: 8px 10px;
+        font-size: 0.6rem;
       }
       
       /* 🔥 FIX: Real-time indicator */
       #realTimeIndicator {
+        font-size: 0.6rem;
+        padding: 5px 8px;
+      }
+      
+      /* 🔥 FIX: Control panel buttons spacing */
+      .control-panel-container .space-y-3 {
+        gap: 8px !important;
+      }
+      
+      /* 🔥 FIX: Status pills */
+      .status-pill-industrial {
+        padding: 8px 12px;
         font-size: 0.65rem;
-        padding: 6px 10px;
+        min-height: 36px;
       }
     }
 
     /* 📱 SMALL MOBILE (Extra Small) */
     @media (max-width: 480px) {
       .main-content {
-        padding: 70px 10px 10px;
+        padding: 70px 8px 10px;
       }
       
       .grid.grid-cols-2.md\\:grid-cols-4 {
         grid-template-columns: 1fr !important;
-        gap: 10px;
+        gap: 8px;
       }
       
       .stat-card-industrial {
-        padding: 12px !important;
-        min-height: 110px;
+        padding: 10px !important;
+        min-height: 100px;
       }
       
       .btn-industrial {
-        padding: 14px 16px !important;
-        font-size: 0.85rem;
+        padding: 12px 14px !important;
+        font-size: 0.75rem;
       }
       
       .sidebar {
         width: 90%;
+      }
+      
+      .circular-progress-industrial {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .logo {
+        font-size: 1.1rem;
+      }
+      
+      .logo-icon {
+        width: 35px;
+        height: 35px;
       }
     }
 
@@ -897,6 +966,7 @@
       .main-content {
         margin-left: 250px;
         padding: 20px;
+        max-width: calc(100% - 250px);
       }
       
       .mobile-menu-btn {
@@ -916,11 +986,11 @@
       }
       
       .circular-progress-industrial {
-        width: 180px;
-        height: 180px;
+        width: 160px;
+        height: 160px;
       }
       
-      .overflow-x-auto {
+      .table-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
       }
@@ -940,6 +1010,7 @@
       .main-content {
         margin-left: 280px;
         padding: 20px;
+        max-width: calc(100% - 280px);
       }
       
       .mobile-menu-btn {
@@ -948,6 +1019,12 @@
       
       .sidebar-overlay {
         display: none;
+      }
+      
+      /* 🔥 FIX: Prevent content from being too wide */
+      .content-container {
+        max-width: 1400px;
+        margin: 0 auto;
       }
     }
 
@@ -976,11 +1053,11 @@
       }
       
       .btn-industrial {
-        padding: 16px 24px;
+        padding: 14px 20px;
       }
       
       .action-btn {
-        padding: 12px;
+        padding: 10px;
       }
       
       /* Improve touch scrolling */
@@ -1007,20 +1084,6 @@
       body {
         overscroll-behavior-y: none;
       }
-    }
-
-    /* 🔥 ENHANCED TABLE SCROLLING */
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin: 0 -12px;
-      padding: 0 12px;
-    }
-    
-    .table-container table {
-      min-width: 1000px;
-      width: 100%;
     }
     
     /* 🔥 FIX: Prevent text selection on mobile */
@@ -1148,379 +1211,381 @@
 
   <!-- 🏭 MAIN CONTENT -->
   <div class="main-content">
-    <!-- 📊 DASHBOARD PAGE -->
-    <div id="dashboard-page" class="page active">
-      <!-- Header -->
-      <div class="industrial-glass p-6 mb-6">
-        <div class="flex flex-col gap-4">
-          <div class="flex-1">
-            <h1 class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent leading-tight">
-              INDUSTRIAL LIBRARY CONTROL
-            </h1>
-            <p class="text-gray-400 mt-2 text-sm md:text-base">Real-time monitoring and management system</p>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
-            <!-- 🔥 ADDED: Real-time indicator -->
-            <div class="flex items-center gap-2 bg-gray-800/50 px-3 py-2 rounded-full" id="realTimeIndicator">
-              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span class="text-xs text-green-400">REAL-TIME</span>
+    <div class="content-container">
+      <!-- 📊 DASHBOARD PAGE -->
+      <div id="dashboard-page" class="page active">
+        <!-- Header -->
+        <div class="industrial-glass p-6 mb-6">
+          <div class="flex flex-col gap-4">
+            <div class="flex-1">
+              <h1 class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent leading-tight">
+                INDUSTRIAL LIBRARY CONTROL
+              </h1>
+              <p class="text-gray-400 mt-2 text-sm md:text-base">Real-time monitoring and management system</p>
             </div>
-            <div class="text-right">
-              <div class="font-semibold text-sm md:text-base" id="currentTime">Loading...</div>
-              <div class="text-xs md:text-sm text-gray-400">System Time</div>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+              <!-- 🔥 ADDED: Real-time indicator -->
+              <div class="flex items-center gap-2 bg-gray-800/50 px-3 py-2 rounded-full" id="realTimeIndicator">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-xs text-green-400">REAL-TIME</span>
+              </div>
+              <div class="text-right">
+                <div class="font-semibold text-sm md:text-base" id="currentTime">Loading...</div>
+                <div class="text-xs md:text-sm text-gray-400">System Time</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Stats Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
-        <div class="stat-card-industrial text-center">
-          <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
-          <div class="text-xs md:text-sm text-gray-400">TOTAL ASSETS</div>
-          <div class="text-xs text-green-400 mt-2" id="registeredBooks">0 registered</div>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
+            <div class="text-xs md:text-sm text-gray-400">TOTAL ASSETS</div>
+            <div class="text-xs text-green-400 mt-2" id="registeredBooks">0 registered</div>
+          </div>
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
+            <div class="text-xs md:text-sm text-gray-400">AVAILABLE</div>
+            <div class="text-xs text-green-400 mt-2" id="availablePercentage">0% operational</div>
+          </div>
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowedBooks">0</div>
+            <div class="text-xs md:text-sm text-gray-400">IN USE</div>
+            <div class="text-xs text-yellow-400 mt-2" id="misplacedCount">0 flagged</div>
+          </div>
+          <div class="stat-card-industrial text-center">
+            <div class="text-2xl md:text-3xl font-bold text-red-400 mb-2" id="overdueBooks">0</div>
+            <div class="text-xs md:text-sm text-gray-400">OVERDUE</div>
+            <div class="text-xs text-red-400 mt-2" id="overdueAlert">SYSTEM OPTIMAL</div>
+          </div>
         </div>
-        <div class="stat-card-industrial text-center">
-          <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
-          <div class="text-xs md:text-sm text-gray-400">AVAILABLE</div>
-          <div class="text-xs text-green-400 mt-2" id="availablePercentage">0% operational</div>
-        </div>
-        <div class="stat-card-industrial text-center">
-          <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowedBooks">0</div>
-          <div class="text-xs md:text-sm text-gray-400">IN USE</div>
-          <div class="text-xs text-yellow-400 mt-2" id="misplacedCount">0 flagged</div>
-        </div>
-        <div class="stat-card-industrial text-center">
-          <div class="text-2xl md:text-3xl font-bold text-red-400 mb-2" id="overdueBooks">0</div>
-          <div class="text-xs md:text-sm text-gray-400">OVERDUE</div>
-          <div class="text-xs text-red-400 mt-2" id="overdueAlert">SYSTEM OPTIMAL</div>
-        </div>
-      </div>
 
-      <!-- Circular Progress & Actions -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
-        <!-- Circular Progress -->
+        <!-- Circular Progress & Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
+          <!-- Circular Progress -->
+          <div class="industrial-glass p-4 md:p-6">
+            <h3 class="text-lg md:text-xl font-bold text-white mb-4 text-center">ASSET DISTRIBUTION</h3>
+            <div class="circular-progress-industrial" id="circularProgress">
+              <div class="absolute text-center z-10">
+                <div class="text-xl md:text-2xl font-bold" id="circularTotal">0</div>
+                <div class="text-xs md:text-sm text-gray-400">TOTAL UNITS</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 md:gap-4 mt-6 text-xs md:text-sm">
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-green-400 shadow-lg shadow-green-400/50"></div>
+                <span>Available: <span id="circularAvailable">0</span></span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50"></div>
+                <span>In Use: <span id="circularBorrowed">0</span></span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-red-400 shadow-lg shadow-red-400/50"></div>
+                <span>Overdue: <span id="circularOverdue">0</span></span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-purple-400 shadow-lg shadow-purple-400/50"></div>
+                <span>Flagged: <span id="circularMisplaced">0</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions - FIXED: Added container to prevent overflow -->
+          <div class="industrial-glass p-4 md:p-6 control-panel-container">
+            <h3 class="text-lg md:text-xl font-bold text-white mb-4">CONTROL PANEL</h3>
+            <div class="space-y-3">
+              <button onclick="showAddBookModal()" class="btn-industrial text-left text-sm md:text-base">
+                <i class="fas fa-plus-circle mr-3"></i>ADD NEW ASSET
+              </button>
+              <button onclick="runOverdueCheck()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#fb923c);">
+                <i class="fas fa-radar-dish mr-3"></i>SCAN OVERDUE
+              </button>
+              <button onclick="exportData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#059669);">
+                <i class="fas fa-database mr-3"></i>EXPORT DATA
+              </button>
+              <button onclick="refreshData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+                <i class="fas fa-arrows-rotate mr-3"></i>REFRESH SYSTEM
+              </button>
+              <!-- 🔥 ADDED: Force update button -->
+              <button onclick="forceUpdateFromFirebase()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-blue),#3b82f6);">
+                <i class="fas fa-bolt mr-3"></i>FORCE UPDATE
+              </button>
+              <!-- 🔥 ADDED: Register All Unregistered Books -->
+              <button onclick="registerAllUnregisteredBooks()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#10b981);">
+                <i class="fas fa-fingerprint mr-3"></i>REGISTER ALL UNREGISTERED
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
         <div class="industrial-glass p-4 md:p-6">
-          <h3 class="text-lg md:text-xl font-bold text-white mb-4 text-center">ASSET DISTRIBUTION</h3>
-          <div class="circular-progress-industrial" id="circularProgress">
-            <div class="absolute text-center z-10">
-              <div class="text-xl md:text-2xl font-bold" id="circularTotal">0</div>
-              <div class="text-xs md:text-sm text-gray-400">TOTAL UNITS</div>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-3 md:gap-4 mt-6 text-xs md:text-sm">
-            <div class="flex items-center gap-3">
-              <div class="w-3 h-3 rounded-full bg-green-400 shadow-lg shadow-green-400/50"></div>
-              <span>Available: <span id="circularAvailable">0</span></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50"></div>
-              <span>In Use: <span id="circularBorrowed">0</span></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-3 h-3 rounded-full bg-red-400 shadow-lg shadow-red-400/50"></div>
-              <span>Overdue: <span id="circularOverdue">0</span></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-3 h-3 rounded-full bg-purple-400 shadow-lg shadow-purple-400/50"></div>
-              <span>Flagged: <span id="circularMisplaced">0</span></span>
-            </div>
+          <h3 class="text-lg md:text-xl font-bold text-white mb-4">RECENT ACTIVITY</h3>
+          <div id="recentBooks" class="text-gray-400 text-center py-4 md:py-6">
+            <div class="loading-spinner-industrial mx-auto mb-4"></div>
+            Loading system activity...
           </div>
         </div>
+      </div>
 
-        <!-- Quick Actions -->
+      <!-- 📚 BOOK MANAGEMENT PAGE -->
+      <div id="books-page" class="page">
         <div class="industrial-glass p-4 md:p-6">
-          <h3 class="text-lg md:text-xl font-bold text-white mb-4">CONTROL PANEL</h3>
-          <div class="space-y-3">
-            <button onclick="showAddBookModal()" class="btn-industrial text-left text-sm md:text-base">
-              <i class="fas fa-plus-circle mr-3"></i>ADD NEW ASSET
-            </button>
-            <button onclick="runOverdueCheck()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#fb923c);">
-              <i class="fas fa-radar-dish mr-3"></i>SCAN OVERDUE
-            </button>
-            <button onclick="exportData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#059669);">
-              <i class="fas fa-database mr-3"></i>EXPORT DATA
-            </button>
-            <button onclick="refreshData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
-              <i class="fas fa-arrows-rotate mr-3"></i>REFRESH SYSTEM
-            </button>
-            <!-- 🔥 ADDED: Force update button -->
-            <button onclick="forceUpdateFromFirebase()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-blue),#3b82f6);">
-              <i class="fas fa-bolt mr-3"></i>FORCE UPDATE
-            </button>
-            <!-- 🔥 ADDED: Register All Unregistered Books -->
-            <button onclick="registerAllUnregisteredBooks()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-green),#10b981);">
-              <i class="fas fa-fingerprint mr-3"></i>REGISTER ALL UNREGISTERED
-            </button>
+          <div class="flex flex-col gap-4 mb-4 md:mb-6">
+            <h3 class="text-lg md:text-2xl font-bold text-white">ASSET MANAGEMENT</h3>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+              <input type="text" id="bookSearch" placeholder="Search assets..." class="input-industrial">
+              <select id="bookStatusFilter" class="input-industrial">
+                <option value="">ALL STATUS</option>
+                <option value="Available">AVAILABLE</option>
+                <option value="Borrowed">IN USE</option>
+                <option value="Overdue">OVERDUE</option>
+                <option value="Misplaced">FLAGGED</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <table class="w-full min-w-max">
+              <thead>
+                <tr class="border-b border-gray-700">
+                  <th class="p-3 text-left min-w-24">ASSET ID</th>
+                  <th class="p-3 text-left min-w-40">TITLE</th>
+                  <th class="p-3 text-left min-w-32">AUTHOR</th>
+                  <th class="p-3 text-left min-w-32">LOCATION</th>
+                  <th class="p-3 text-left min-w-32">STATUS</th>
+                  <th class="p-3 text-left min-w-32">USER</th>
+                  <th class="p-3 text-left min-w-36">LAST SCAN</th>
+                  <th class="p-3 text-left min-w-32">REGISTERED</th>
+                  <th class="p-3 text-left min-w-36">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="booksTable">
+                <!-- Books will be loaded here -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      <!-- Recent Activity -->
-      <div class="industrial-glass p-4 md:p-6">
-        <h3 class="text-lg md:text-xl font-bold text-white mb-4">RECENT ACTIVITY</h3>
-        <div id="recentBooks" class="text-gray-400 text-center py-4 md:py-6">
-          <div class="loading-spinner-industrial mx-auto mb-4"></div>
-          Loading system activity...
+      <!-- 👥 USER CONTROL PAGE -->
+      <div id="users-page" class="page">
+        <div class="industrial-glass p-4 md:p-6">
+          <div class="flex flex-col gap-4 mb-4 md:mb-6">
+            <h3 class="text-lg md:text-2xl font-bold text-white">USER CONTROL PANEL</h3>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+              <input type="text" id="userSearch" placeholder="Search users..." class="input-industrial">
+              <button onclick="showAddUserModal()" class="btn-industrial text-sm md:text-base">
+                <i class="fas fa-user-plus mr-2"></i>ADD USER
+              </button>
+            </div>
+          </div>
+
+          <!-- User Statistics -->
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
+            <div class="stat-card-industrial text-center">
+              <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalUsers">0</div>
+              <div class="text-xs md:text-sm text-gray-400">REGISTERED USERS</div>
+            </div>
+            <div class="stat-card-industrial text-center">
+              <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="activeUsers">0</div>
+              <div class="text-xs md:text-sm text-gray-400">ACTIVE TODAY</div>
+            </div>
+            <div class="stat-card-industrial text-center">
+              <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowingUsers">0</div>
+              <div class="text-xs md:text-sm text-gray-400">CURRENTLY BORROWING</div>
+            </div>
+          </div>
+
+          <!-- Users Table -->
+          <div class="table-container">
+            <table class="w-full min-w-max">
+              <thead>
+                <tr class="border-b border-gray-700">
+                  <th class="p-3 text-left min-w-28">USER ID</th>
+                  <th class="p-3 text-left min-w-40">NAME</th>
+                  <th class="p-3 text-left min-w-48">EMAIL</th>
+                  <th class="p-3 text-left min-w-32">ROLE</th>
+                  <th class="p-3 text-left min-w-36">BORROWED ITEMS</th>
+                  <th class="p-3 text-left min-w-36">LAST ACTIVE</th>
+                  <th class="p-3 text-left min-w-36">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable">
+                <tr>
+                  <td colspan="7" class="p-6 text-center text-gray-400">
+                    <i class="fas fa-users text-2xl md:text-3xl mb-4 block"></i>
+                    Loading user data...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 📚 BOOK MANAGEMENT PAGE -->
-    <div id="books-page" class="page">
-      <div class="industrial-glass p-4 md:p-6">
-        <div class="flex flex-col gap-4 mb-4 md:mb-6">
-          <h3 class="text-lg md:text-2xl font-bold text-white">ASSET MANAGEMENT</h3>
-          <div class="flex flex-col sm:flex-row gap-3 w-full">
-            <input type="text" id="bookSearch" placeholder="Search assets..." class="input-industrial">
-            <select id="bookStatusFilter" class="input-industrial">
-              <option value="">ALL STATUS</option>
-              <option value="Available">AVAILABLE</option>
-              <option value="Borrowed">IN USE</option>
-              <option value="Overdue">OVERDUE</option>
-              <option value="Misplaced">FLAGGED</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="table-container">
-          <table class="w-full min-w-max">
-            <thead>
-              <tr class="border-b border-gray-700">
-                <th class="p-3 text-left min-w-24">ASSET ID</th>
-                <th class="p-3 text-left min-w-40">TITLE</th>
-                <th class="p-3 text-left min-w-32">AUTHOR</th>
-                <th class="p-3 text-left min-w-32">LOCATION</th>
-                <th class="p-3 text-left min-w-32">STATUS</th>
-                <th class="p-3 text-left min-w-32">USER</th>
-                <th class="p-3 text-left min-w-36">LAST SCAN</th>
-                <th class="p-3 text-left min-w-32">REGISTERED</th>
-                <th class="p-3 text-left min-w-36">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody id="booksTable">
-              <!-- Books will be loaded here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+      <!-- 📈 ANALYTICS PAGE -->
+      <div id="analytics-page" class="page">
+        <div class="industrial-glass p-4 md:p-6">
+          <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM ANALYTICS</h3>
+          
+          <!-- Analytics Overview -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+            <!-- Usage Statistics -->
+            <div class="analytics-chart">
+              <h4 class="text-base md:text-lg font-semibold mb-4">📊 USAGE STATISTICS</h4>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between mb-1 text-sm md:text-base">
+                    <span>Daily Transactions</span>
+                    <span id="dailyTransactions">0</span>
+                  </div>
+                  <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 65%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1 text-sm md:text-base">
+                    <span>Monthly Activity</span>
+                    <span id="monthlyActivity">0</span>
+                  </div>
+                  <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1 text-sm md:text-base">
+                    <span>System Uptime</span>
+                    <span id="systemUptime">99.8%</span>
+                  </div>
+                  <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-purple-500 h-2 rounded-full" style="width: 99%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-    <!-- 👥 USER CONTROL PAGE -->
-    <div id="users-page" class="page">
-      <div class="industrial-glass p-4 md:p-6">
-        <div class="flex flex-col gap-4 mb-4 md:mb-6">
-          <h3 class="text-lg md:text-2xl font-bold text-white">USER CONTROL PANEL</h3>
-          <div class="flex flex-col sm:flex-row gap-3 w-full">
-            <input type="text" id="userSearch" placeholder="Search users..." class="input-industrial">
-            <button onclick="showAddUserModal()" class="btn-industrial text-sm md:text-base">
-              <i class="fas fa-user-plus mr-2"></i>ADD USER
-            </button>
+            <!-- Popular Items -->
+            <div class="analytics-chart">
+              <h4 class="text-base md:text-lg font-semibold mb-4">🔥 POPULAR ASSETS</h4>
+              <div id="popularBooks" class="space-y-3">
+                <div class="text-center text-gray-400 py-4">
+                  <i class="fas fa-chart-bar text-xl mb-2 block"></i>
+                  Loading popular items...
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- User Statistics -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
-          <div class="stat-card-industrial text-center">
-            <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-2" id="totalUsers">0</div>
-            <div class="text-xs md:text-sm text-gray-400">REGISTERED USERS</div>
-          </div>
-          <div class="stat-card-industrial text-center">
-            <div class="text-2xl md:text-3xl font-bold text-green-400 mb-2" id="activeUsers">0</div>
-            <div class="text-xs md:text-sm text-gray-400">ACTIVE TODAY</div>
-          </div>
-          <div class="stat-card-industrial text-center">
-            <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-2" id="borrowingUsers">0</div>
-            <div class="text-xs md:text-sm text-gray-400">CURRENTLY BORROWING</div>
-          </div>
-        </div>
-
-        <!-- Users Table -->
-        <div class="table-container">
-          <table class="w-full min-w-max">
-            <thead>
-              <tr class="border-b border-gray-700">
-                <th class="p-3 text-left min-w-28">USER ID</th>
-                <th class="p-3 text-left min-w-40">NAME</th>
-                <th class="p-3 text-left min-w-48">EMAIL</th>
-                <th class="p-3 text-left min-w-32">ROLE</th>
-                <th class="p-3 text-left min-w-36">BORROWED ITEMS</th>
-                <th class="p-3 text-left min-w-36">LAST ACTIVE</th>
-                <th class="p-3 text-left min-w-36">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody id="usersTable">
-              <tr>
-                <td colspan="7" class="p-6 text-center text-gray-400">
-                  <i class="fas fa-users text-2xl md:text-3xl mb-4 block"></i>
-                  Loading user data...
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 📈 ANALYTICS PAGE -->
-    <div id="analytics-page" class="page">
-      <div class="industrial-glass p-4 md:p-6">
-        <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM ANALYTICS</h3>
-        
-        <!-- Analytics Overview -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
-          <!-- Usage Statistics -->
+          <!-- Activity Timeline -->
           <div class="analytics-chart">
-            <h4 class="text-base md:text-lg font-semibold mb-4">📊 USAGE STATISTICS</h4>
+            <h4 class="text-base md:text-lg font-semibold mb-4">🕒 RECENT ACTIVITY TIMELINE</h4>
+            <div id="activityTimeline" class="space-y-3">
+              <div class="text-center text-gray-400 py-4">
+                <div class="loading-spinner-industrial mx-auto mb-4"></div>
+                Loading activity timeline...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⚙️ SYSTEM SETTINGS PAGE -->
+      <div id="settings-page" class="page">
+        <div class="industrial-glass p-4 md:p-6">
+          <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM SETTINGS</h3>
+          
+          <!-- General Settings -->
+          <div class="settings-panel">
+            <h4 class="text-base md:text-lg font-semibold mb-4">🔧 GENERAL SETTINGS</h4>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-medium text-sm md:text-base">System Notifications</div>
+                  <div class="text-xs md:text-sm text-gray-400">Receive alerts for system events</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" checked>
+                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-medium text-sm md:text-base">Auto-refresh Data</div>
+                  <div class="text-xs md:text-sm text-gray-400">Automatically refresh dashboard data</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" checked>
+                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Settings -->
+          <div class="settings-panel">
+            <h4 class="text-base md:text-lg font-semibold mb-4">🔐 SECURITY SETTINGS</h4>
             <div class="space-y-4">
               <div>
-                <div class="flex justify-between mb-1 text-sm md:text-base">
-                  <span>Daily Transactions</span>
-                  <span id="dailyTransactions">0</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-blue-500 h-2 rounded-full" style="width: 65%"></div>
-                </div>
+                <label class="block text-gray-300 mb-2 text-sm md:text-base">Session Timeout</label>
+                <select class="input-industrial">
+                  <option>15 minutes</option>
+                  <option selected>30 minutes</option>
+                  <option>1 hour</option>
+                  <option>2 hours</option>
+                </select>
               </div>
               <div>
-                <div class="flex justify-between mb-1 text-sm md:text-base">
-                  <span>Monthly Activity</span>
-                  <span id="monthlyActivity">0</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
-                </div>
+                <label class="block text-gray-300 mb-2 text-sm md:text-base">Password Requirements</label>
+                <select class="input-industrial">
+                  <option>Basic (6 characters)</option>
+                  <option selected>Standard (8 characters with numbers)</option>
+                  <option>Strong (12 characters with symbols)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Information -->
+          <div class="settings-panel">
+            <h4 class="text-base md:text-lg font-semibold mb-4">💻 SYSTEM INFORMATION</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <div class="text-xs md:text-sm text-gray-400">System Version</div>
+                <div class="font-medium text-sm md:text-base">Industrial Dashboard v2.0.1</div>
               </div>
               <div>
-                <div class="flex justify-between mb-1 text-sm md:text-base">
-                  <span>System Uptime</span>
-                  <span id="systemUptime">99.8%</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-purple-500 h-2 rounded-full" style="width: 99%"></div>
-                </div>
+                <div class="text-xs md:text-sm text-gray-400">Last Updated</div>
+                <div class="font-medium text-sm md:text-base" id="lastUpdated">Loading...</div>
               </div>
-            </div>
-          </div>
-
-          <!-- Popular Items -->
-          <div class="analytics-chart">
-            <h4 class="text-base md:text-lg font-semibold mb-4">🔥 POPULAR ASSETS</h4>
-            <div id="popularBooks" class="space-y-3">
-              <div class="text-center text-gray-400 py-4">
-                <i class="fas fa-chart-bar text-xl mb-2 block"></i>
-                Loading popular items...
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Activity Timeline -->
-        <div class="analytics-chart">
-          <h4 class="text-base md:text-lg font-semibold mb-4">🕒 RECENT ACTIVITY TIMELINE</h4>
-          <div id="activityTimeline" class="space-y-3">
-            <div class="text-center text-gray-400 py-4">
-              <div class="loading-spinner-industrial mx-auto mb-4"></div>
-              Loading activity timeline...
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⚙️ SYSTEM SETTINGS PAGE -->
-    <div id="settings-page" class="page">
-      <div class="industrial-glass p-4 md:p-6">
-        <h3 class="text-lg md:text-2xl font-bold text-white mb-4 md:mb-6">SYSTEM SETTINGS</h3>
-        
-        <!-- General Settings -->
-        <div class="settings-panel">
-          <h4 class="text-base md:text-lg font-semibold mb-4">🔧 GENERAL SETTINGS</h4>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
               <div>
-                <div class="font-medium text-sm md:text-base">System Notifications</div>
-                <div class="text-xs md:text-sm text-gray-400">Receive alerts for system events</div>
+                <div class="text-xs md:text-sm text-gray-400">Database Status</div>
+                <div class="font-medium text-green-400 text-sm md:text-base">Connected</div>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" class="sr-only peer" checked>
-                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
-            </div>
-            
-            <div class="flex items-center justify-between">
               <div>
-                <div class="font-medium text-sm md:text-base">Auto-refresh Data</div>
-                <div class="text-xs md:text-sm text-gray-400">Automatically refresh dashboard data</div>
+                <div class="text-xs md:text-sm text-gray-400">Active Sessions</div>
+                <div class="font-medium text-sm md:text-base" id="activeSessions">1</div>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" class="sr-only peer" checked>
-                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
-              </label>
             </div>
           </div>
-        </div>
 
-        <!-- Security Settings -->
-        <div class="settings-panel">
-          <h4 class="text-base md:text-lg font-semibold mb-4">🔐 SECURITY SETTINGS</h4>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-gray-300 mb-2 text-sm md:text-base">Session Timeout</label>
-              <select class="input-industrial">
-                <option>15 minutes</option>
-                <option selected>30 minutes</option>
-                <option>1 hour</option>
-                <option>2 hours</option>
-              </select>
+          <!-- Danger Zone -->
+          <div class="settings-panel border-2 border-red-500/30">
+            <h4 class="text-base md:text-lg font-semibold mb-4 text-red-400">⚠️ DANGER ZONE</h4>
+            <div class="space-y-3">
+              <button onclick="clearAllData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+                <i class="fas fa-trash mr-2"></i>CLEAR ALL SYSTEM DATA
+              </button>
+              <button onclick="resetSystem()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#ea580c);">
+                <i class="fas fa-rotate mr-2"></i>FACTORY RESET
+              </button>
+              <button onclick="exportBackup()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
+                <i class="fas fa-download mr-2"></i>CREATE BACKUP
+              </button>
             </div>
-            <div>
-              <label class="block text-gray-300 mb-2 text-sm md:text-base">Password Requirements</label>
-              <select class="input-industrial">
-                <option>Basic (6 characters)</option>
-                <option selected>Standard (8 characters with numbers)</option>
-                <option>Strong (12 characters with symbols)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- System Information -->
-        <div class="settings-panel">
-          <h4 class="text-base md:text-lg font-semibold mb-4">💻 SYSTEM INFORMATION</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div class="text-xs md:text-sm text-gray-400">System Version</div>
-              <div class="font-medium text-sm md:text-base">Industrial Dashboard v2.0.1</div>
-            </div>
-            <div>
-              <div class="text-xs md:text-sm text-gray-400">Last Updated</div>
-              <div class="font-medium text-sm md:text-base" id="lastUpdated">Loading...</div>
-            </div>
-            <div>
-              <div class="text-xs md:text-sm text-gray-400">Database Status</div>
-              <div class="font-medium text-green-400 text-sm md:text-base">Connected</div>
-            </div>
-            <div>
-              <div class="text-xs md:text-sm text-gray-400">Active Sessions</div>
-              <div class="font-medium text-sm md:text-base" id="activeSessions">1</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Danger Zone -->
-        <div class="settings-panel border-2 border-red-500/30">
-          <h4 class="text-base md:text-lg font-semibold mb-4 text-red-400">⚠️ DANGER ZONE</h4>
-          <div class="space-y-3">
-            <button onclick="clearAllData()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
-              <i class="fas fa-trash mr-2"></i>CLEAR ALL SYSTEM DATA
-            </button>
-            <button onclick="resetSystem()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-orange),#ea580c);">
-              <i class="fas fa-rotate mr-2"></i>FACTORY RESET
-            </button>
-            <button onclick="exportBackup()" class="btn-industrial text-left text-sm md:text-base" style="background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));">
-              <i class="fas fa-download mr-2"></i>CREATE BACKUP
-            </button>
           </div>
         </div>
       </div>
@@ -1656,7 +1721,7 @@
       }
     });
 
-    // Close sidebar on page change for mobile
+    // 🔥 FIXED: Page loading function - NO DELAY
     function showPage(pageId) {
       // Hide all pages
       document.querySelectorAll('.page').forEach(page => {
@@ -1677,15 +1742,20 @@
         toggleSidebar();
       }
 
-      // Load page-specific data
+      // Load page-specific data INSTANTLY
       if (pageId === 'users-page') {
-        loadUsers();
+        updateUsersTable();
         updateUserStats();
       } else if (pageId === 'analytics-page') {
         updateAnalytics();
       } else if (pageId === 'settings-page') {
         document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
       }
+      
+      // 🔥 FIX: Force DOM update
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 10);
     }
 
     // Handle window resize for better mobile experience
@@ -1813,57 +1883,37 @@
     let usersRef = null;
 
     // ==================== CRITICAL FIX: STATUS NORMALIZATION ====================
-    // ESP/Mega sends: "AVL", "BRW" 
-    // Dashboard expects: "Available", "Borrowed"
-
     function normalizeStatus(status) {
       if (!status || typeof status !== 'string') return "Available";
       
-      // Clean the status string
-      const cleanStatus = status.trim();
+      const cleanStatus = status.trim().toUpperCase();
       
       // ESP/Mega short formats to Dashboard format mapping
       const statusMap = {
-        // ESP/Mega short formats
         'AVL': 'Available',
-        'avl': 'Available',
         'BRW': 'Borrowed',
-        'brw': 'Borrowed',
         'OVD': 'Overdue',
-        'ovd': 'Overdue',
         'MIS': 'Misplaced',
-        'mis': 'Misplaced',
         
         // Dashboard long formats
         'AVAILABLE': 'Available',
-        'available': 'Available',
-        'Available': 'Available',
         'BORROWED': 'Borrowed',
-        'borrowed': 'Borrowed',
-        'Borrowed': 'Borrowed',
         'OVERDUE': 'Overdue',
-        'overdue': 'Overdue',
-        'Overdue': 'Overdue',
         'MISPLACED': 'Misplaced',
-        'misplaced': 'Misplaced',
-        'Misplaced': 'Misplaced',
         
         // Special cases
-        'Unknown': 'Available',  // Treat unknown as available
-        'UNKNOWN': 'Available',
-        'unknown': 'Available'
+        'UNKNOWN': 'Available'
       };
       
-      // Check for exact match first
       if (statusMap[cleanStatus]) {
         return statusMap[cleanStatus];
       }
       
       // Check for partial matches
-      if (cleanStatus.includes('AVL') || cleanStatus.includes('avl')) return 'Available';
-      if (cleanStatus.includes('BRW') || cleanStatus.includes('brw')) return 'Borrowed';
-      if (cleanStatus.includes('OVD') || cleanStatus.includes('ovd')) return 'Overdue';
-      if (cleanStatus.includes('MIS') || cleanStatus.includes('mis')) return 'Misplaced';
+      if (cleanStatus.includes('AVL')) return 'Available';
+      if (cleanStatus.includes('BRW')) return 'Borrowed';
+      if (cleanStatus.includes('OVD')) return 'Overdue';
+      if (cleanStatus.includes('MIS')) return 'Misplaced';
       
       // Default to Available
       return 'Available';
@@ -1898,17 +1948,10 @@
       const validStatuses = [
         'AVL', 'avl', 'BRW', 'brw', 'OVD', 'ovd', 'MIS', 'mis',
         'Available', 'available', 'Borrowed', 'borrowed', 
-        'Overdue', 'overdue', 'Misplaced', 'misplaced',
-        'Unknown', 'unknown'
+        'Overdue', 'overdue', 'Misplaced', 'misplaced'
       ];
       
-      // Also check for corrupted strings
-      if (status.includes('undefined') || status.includes('null') || 
-          status.includes('�') || status.length > 20) {
-        return false;
-      }
-      
-      return validStatuses.includes(status);
+      return validStatuses.includes(status.trim());
     }
 
     // 🌐 ONLINE/OFFLINE DETECTION
@@ -1978,19 +2021,29 @@
       document.getElementById('circularMisplaced').textContent = misplaced;
     }
 
-    // 🕒 IMPROVED DATE/TIME HANDLING FUNCTIONS - ESP32 COMPATIBLE
+    // 🕒 FIXED: DATE/TIME HANDLING - NO WRONG YEARS (121)
     function parseTimestamp(timestamp) {
         if (!timestamp) return null;
         
         try {
             // Handle Firebase timestamp objects
             if (timestamp && typeof timestamp === 'object' && timestamp.hasOwnProperty('seconds')) {
-                return new Date(timestamp.seconds * 1000);
+                const date = new Date(timestamp.seconds * 1000);
+                // 🔥 FIX: Ensure year is correct (not 0121)
+                if (date.getFullYear() < 2000) {
+                    date.setFullYear(new Date().getFullYear());
+                }
+                return date;
             }
             
             // Handle ISO strings
             if (typeof timestamp === 'string' && timestamp.includes('T')) {
-                return new Date(timestamp);
+                const date = new Date(timestamp);
+                // 🔥 FIX: Ensure year is correct (not 0121)
+                if (date.getFullYear() < 2000) {
+                    date.setFullYear(new Date().getFullYear());
+                }
+                return date;
             }
             
             // Handle ESP32 NTP time format (HH:MM:SS from NTP)
@@ -2007,17 +2060,33 @@
             
             // Handle numeric timestamps
             if (typeof timestamp === 'number') {
-                return new Date(timestamp);
+                const date = new Date(timestamp);
+                // 🔥 FIX: Ensure year is correct (not 0121)
+                if (date.getFullYear() < 2000) {
+                    date.setFullYear(new Date().getFullYear());
+                }
+                return date;
             }
             
             // Handle full date strings
             if (typeof timestamp === 'string' && timestamp.includes('/')) {
-                return new Date(timestamp);
+                const date = new Date(timestamp);
+                // 🔥 FIX: Ensure year is correct (not 0121)
+                if (date.getFullYear() < 2000) {
+                    date.setFullYear(new Date().getFullYear());
+                }
+                return date;
             }
             
             // Try direct date parsing as last resort
             const date = new Date(timestamp);
-            return isNaN(date.getTime()) ? null : date;
+            if (isNaN(date.getTime())) return null;
+            
+            // 🔥 FIX: Ensure year is correct (not 0121)
+            if (date.getFullYear() < 2000) {
+                date.setFullYear(new Date().getFullYear());
+            }
+            return date;
         } catch (e) {
             console.warn('Error parsing timestamp:', e, 'Value:', timestamp);
             return null;
@@ -2042,11 +2111,24 @@
         return date.toLocaleDateString();
     }
 
+    // 🔥 FIXED: Proper date formatting for export - NO 0121 YEAR
     function formatDateTime(timestamp) {
         const date = parseTimestamp(timestamp);
         if (!date) return 'Unknown';
         
-        return date.toLocaleString();
+        // Ensure year is correct
+        if (date.getFullYear() < 2000) {
+            date.setFullYear(new Date().getFullYear());
+        }
+        
+        return date.toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
     }
 
     function formatTime(timestamp) {
@@ -2791,9 +2873,6 @@
                 
                 // Show notification to user
                 showNotification(`Auto-registered ${updatedCount} books with real data`, 'success');
-                
-                // Refresh the books list to show updated registration status
-                // We'll let the real-time listener handle this automatically
               })
               .catch((error) => {
                 console.error("❌ Auto-registration failed:", error);
@@ -2802,28 +2881,6 @@
           }
           
           console.log(`📚 Loaded ${books.length} books. Registered: ${books.filter(b => b.isRegistered).length}`);
-          
-          const registeredCount = books.filter(b => b.isRegistered).length;
-          const borrowedCount = books.filter(b => normalizeStatus(b.status) === 'Borrowed').length;
-          const espStatusBooks = books.filter(b => b.espStatus).length;
-          
-          console.log(`📚 Books Summary:`);
-          console.log(`   • Total: ${books.length}`);
-          console.log(`   • Registered: ${registeredCount}`);
-          console.log(`   • Borrowed: ${borrowedCount}`);
-          console.log(`   • Using espStatus: ${espStatusBooks}`);
-          
-          // 🔥 NEW: Log books that need registration
-          const unregisteredWithRealData = books.filter(b => 
-            !b.isRegistered && shouldAutoRegisterBook(b)
-          );
-          
-          if (unregisteredWithRealData.length > 0) {
-            console.log(`⚠️  ${unregisteredWithRealData.length} books have real data but aren't registered:`);
-            unregisteredWithRealData.forEach(b => {
-              console.log(`   - ${b.uid}: "${b.title}" by ${b.author}`);
-            });
-          }
           
           // Update all UI components
           updateBooksTable();
@@ -2837,6 +2894,8 @@
           
           // Show success notification on first load
           if (books.length > 0) {
+            const registeredCount = books.filter(b => b.isRegistered).length;
+            const borrowedCount = books.filter(b => normalizeStatus(b.status) === 'Borrowed').length;
             showNotification(`System synchronized: ${books.length} assets loaded (${registeredCount} registered, ${borrowedCount} borrowed)`, 'success');
           }
         } else {
@@ -3013,6 +3072,7 @@
       }, 2000);
     }
 
+    // 🔥 FIXED: Export Data - NO WRONG YEAR 0121
     function exportData() {
       showNotification('Preparing data export...', 'info');
       
